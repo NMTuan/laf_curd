@@ -10,5 +10,6 @@
 <template>
     <div>
         index !
+        <ApplicationsList></ApplicationsList>
     </div>
 </template>

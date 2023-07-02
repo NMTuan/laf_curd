@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-01 19:13:03
- * @LastEditTime: 2023-07-02 18:16:58
+ * @LastEditTime: 2023-07-02 18:29:44
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\stores\policy.ts
@@ -26,7 +26,6 @@ function getRandomInt(min: number, max: number) {
 
 export const usePolicyStore = defineStore('usePolicyStore', () => {
     const configStore = useConfigStore()
-    const policy = useCookie(`laf_curd_policy_${configStore.appid}`)
     const queryStore = useQueryStore()
 
     // 列表
@@ -78,7 +77,7 @@ ${JSON.stringify(rule, null, 2)}`
                 return reject()
             }
             request({
-                path: `/v1/apps/${configStore.appid}/policies/${policy.value}/rules`,
+                path: `/v1/apps/${configStore.appid}/policies/${queryStore.policy}/rules`,
                 method: 'POST',
                 body: {
                     collectionName: queryStore.collection.name,
@@ -108,7 +107,7 @@ ${JSON.stringify(rule, null, 2)}`
                 return reject()
             }
             request({
-                path: `/v1/apps/${configStore.appid}/policies/${policy.value}/rules/${queryStore.collection.name}`,
+                path: `/v1/apps/${configStore.appid}/policies/${queryStore.policy}/rules/${queryStore.collection.name}`,
                 method: 'PATCH',
                 body: {
                     // collectionName: queryStore.collection.name,

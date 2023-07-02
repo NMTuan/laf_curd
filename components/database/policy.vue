@@ -8,6 +8,7 @@
     </div>
 </template>
 <script setup>
+import { usePolicyStore } from '@/stores/policy';
 const policyStore = usePolicyStore()
 const loading = ref(false)
 

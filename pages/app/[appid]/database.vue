@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-01 18:13:40
- * @LastEditTime: 2023-07-01 21:12:10
+ * @LastEditTime: 2023-07-02 16:43:40
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\pages\app\[appid]\database.vue
@@ -13,27 +13,15 @@
             <DatabaseList></DatabaseList>
         </template>
         <div>
-            <div v-if="!currentPolicy">
-                <p>还没有选择访问策略，请<NuxtLink :to="{
-                    name: 'app-appid-policy', params: {
-                        appid
-                    }
-                }">先去选择</NuxtLink>
-                </p>
+            <div class="flex items-center mx-6 py-1">
+                <div>当前策略：</div>
+                <DatabasePolicy></DatabasePolicy>
             </div>
-            <div v-else>
-                当前策略：{{ currentPolicy }}
-                <DatabaseRun></DatabaseRun>
-                <DatabaseResponse></DatabaseResponse>
-            </div>
-
+            <DatabaseRun></DatabaseRun>
+            <DatabaseResponse></DatabaseResponse>
         </div>
-
     </LayoutTwoColumn>
 </template>
 <script setup>
 const route = useRoute()
-const { appid } = route.params
-const currentPolicy = useCookie(`laf_curd_policy_${appid}`)
-
 </script>

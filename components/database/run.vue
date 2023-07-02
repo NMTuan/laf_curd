@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-01 16:51:11
- * @LastEditTime: 2023-07-02 14:43:30
+ * @LastEditTime: 2023-07-02 16:45:13
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\database\run.vue
@@ -21,11 +21,11 @@
 <script setup>
 import { Cloud } from 'laf-client-sdk'
 const queryStore = useQueryStore()
-let cloud, _
+let cloud = reactive()
+let _ = reactive()
 const route = useRoute()
 const { appid } = route.params
-const loading = ref(true)
-const currentPolicy = useCookie(`laf_curd_policy_${appid}`)
+const loading = ref(false)
 
 const query = () => {
     if (!queryStore.collection.name) {
@@ -34,6 +34,14 @@ const query = () => {
             message: '请在左侧选择您要查询的集合'
         }
         return
+    }
+    if (!queryStore.policy) {
+            queryStore.response = {
+            ok: false,
+            message: '请在上方选择访问策略'
+        }
+        return
+    
     }
     try {
         loading.value = true
@@ -69,12 +77,17 @@ const query = () => {
     }
 }
 
-onMounted(() => {
+watchEffect(() => {
+    if (!queryStore.policy) {
+        return
+    }
     cloud = new Cloud({
         baseUrl: `https://${appid}.laf.run`,
-        dbProxyUrl: `/proxy/${currentPolicy.value}`
+        dbProxyUrl: `/proxy/${queryStore.policy}`
     })
     _ = cloud.database().command
-    loading.value = false
+
+
 })
+
 </script>

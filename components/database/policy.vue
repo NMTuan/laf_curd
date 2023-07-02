@@ -1,68 +1,47 @@
 <template>
-    <div class="h-full flex flex-col items-center justify-center relative">
+    <div class="flex items-center">
         <LayoutLoading :loading="loading"></LayoutLoading>
-        <div class="i-ri-shield-keyhole-line text-8xl text-gray-200"></div>
-        <div class="text-lg mt-6">第一次使用，请初始化访问策略</div>
-        <div>
-            <button @click="handlerInit" class="button">初始化访问策略</button>
+        <DatabasePolicyItem v-for="item in policyStore.list" :data="item"></DatabasePolicyItem>
+        <div class="add" @click="addPolicy">
+            <div class="i-ri-add-line"></div>
         </div>
     </div>
 </template>
 <script setup>
-const route = useRoute()
-const policy = useCookie(`laf_curd_${route.params.appid}_policy`)
+const policyStore = usePolicyStore()
 const loading = ref(false)
 
-const emits = defineEmits(['updatePolicy'])
-
-function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+const getList = async () => {
+    loading.value = true
+    await policyStore.fetch()
+    loading.value = false
 }
 
-const handlerInit = () => {
-    const cfm = confirm(`
-注意：
-
-此操作会在当前应用创建一个以laf_curd_开头的随机策略。
-并将策略名称临时保存在你当前浏览器。
-该策略拥有完全控制数据库的权限，请勿泄露。
-`)
+const addPolicy = async () => {
+    const cfm = confirm('该操作会创建一个以laf_curd开头的随机策略，确定要创建么？')
     if (!cfm) {
         return
     }
-
-    // 生成一个策略名字
-    const policyStr = `laf_curd_${route.params.appid}_${getRandomInt(479890, 1679615).toString(36)}`
-
     loading.value = true
-    request({
-        method: 'POST',
-        path: `/v1/apps/${route.params.appid}/policies`,
-        body: {
-            name: policyStr
-        }
-    }).
-        then(response => {
-            emits('updatePolicy', policyStr)
-        })
-        .catch(err => {
-            alert('error')
+    policyStore.create()
+        .then(res => {
+            return policyStore.fetch()
         })
         .finally(() => {
             loading.value = false
         })
 }
+
+getList()
 </script>
 <style scoped lang="scss">
-.button {
-    @apply text-base;
-    @apply bg-teal-500 text-white;
-    @apply px-4 py-2 mt-4;
-    @apply rounded border-none;
+.add {
+    @apply flex items-center;
+    @apply border border-solid border-gray-200 rounded;
+    @apply bg-gray-50;
+    @apply px-1 py-1 mr-2;
+    @apply text-sm leading-none;
     @apply cursor-pointer;
-    --at-apply: hover:(bg-teal-600);
-
+    --at-apply: hover:(bg-teal-50 border-teal-200 text-teal-500);
 }
 </style>

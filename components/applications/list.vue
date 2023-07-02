@@ -2,10 +2,10 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-06-30 21:03:04
- * @LastEditTime: 2023-07-02 11:43:42
+ * @LastEditTime: 2023-07-02 17:13:58
  * @LastEditors: NMTuan
  * @Description: 
- * @FilePath: \laf_curd\components\applications\list.vue
+ * @FilePath: \project\laf_curd\components\applications\list.vue
 -->
 <template>
     <LayoutPanel title="Application" :loading="loading">
@@ -13,6 +13,7 @@
     </LayoutPanel>
 </template>
 <script setup>
+import { useAppStore } from '@/stores/app'
 const appStore = useAppStore()
 const loading = ref(false)
 

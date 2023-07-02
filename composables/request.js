@@ -2,12 +2,12 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-06-27 15:59:25
- * @LastEditTime: 2023-06-30 20:55:06
+ * @LastEditTime: 2023-07-02 17:12:56
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\composables\request.js
  */
-export const request = (params, disabledLoading) => {
+export const request = (params) => {
     // let loading
     const runtimeConfig = useRuntimeConfig()
     const userStore = useUserStore()
@@ -48,42 +48,22 @@ export const request = (params, disabledLoading) => {
                 message: 'no url'
             })
         }
-        // if (!disabledLoading) {
-        //     loading = ElLoading.service()
-        // }
         $fetch(url, params)
-            // .finally(() => {
-            //     if (!disabledLoading) {
-            //         loading.close()
-            //     }
-            // })
             .then((res) => {
                 if (res instanceof Blob) {
                     resolve(res)
                 } else if (!res.error) {
-                    if (res.message) {
-                        // ElMessage({
-                        //     message: res.message,
-                        //     type: 'success'
-                        // })
-                    }
                     resolve(res)
                 } else {
-                    if (res.code && res.message) {
-                        // ElMessageBox.alert(res.message, {
-                        //     title: `Error ${res.code}`
-                        // })
-                    }
+                    alert(res.error)
                     reject(res)
                 }
             })
-            .catch((res) => {
-                if (res.response && res.response.status) {
-                    // ElMessageBox.alert('网络异常，请稍后重试！', {
-                    //     title: `Error ${res.response.status}`
-                    // })
+            .catch((err) => {
+                if (err.response) {
+                    alert(JSON.stringify(err.response.data, null, 2))
                 }
-                reject(res)
+                reject(err)
             })
     })
 }

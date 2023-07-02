@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-01 17:34:07
- * @LastEditTime: 2023-07-02 14:25:43
+ * @LastEditTime: 2023-07-02 17:11:55
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\database\response.vue
@@ -26,10 +26,8 @@
 </template>
 <script setup>
 const route = useRoute()
-const { appid } = route.params
 const queryStore = useQueryStore()
 const policyStore = usePolicyStore()
-const currentPolicy = useCookie(`laf_curd_policy_${appid}`)
 
 
 const createPolicy = async () => {

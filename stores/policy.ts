@@ -2,17 +2,12 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-01 19:13:03
- * @LastEditTime: 2023-07-02 15:02:59
+ * @LastEditTime: 2023-07-02 17:24:19
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\stores\policy.ts
  */
 import { defineStore } from 'pinia'
-
-interface PolicyObj {
-    appid: string
-    name: string
-}
 
 // 管理员权限规则
 const rule = {
@@ -34,64 +29,6 @@ export const usePolicyStore = defineStore('usePolicyStore', () => {
     const policy = useCookie(`laf_curd_policy_${configStore.appid}`)
     const queryStore = useQueryStore()
 
-    // 本地记录的所有测录名称
-    let policies: Ref<PolicyObj[]> = useCookie('laf_curd_policies')
-    policies.value = policies.value === undefined ? [] : policies.value
-
-    // 创建策略
-    // const createPolicy = async (appid: string) => {
-    //     if (!appid) {
-    //         return
-    //     }
-    //     const exist = policies.value.find(
-    //         (item: PolicyObj) => appid === item.appid
-    //     )
-    //     if (exist) {
-    //         alert('找到历史策略，无需再次创建')
-    //         return
-    //     }
-    //     // 生成一个策略名字
-    //     const policy = `laf_curd_${appid}_${getRandomInt(
-    //         479890,
-    //         1679615
-    //     ).toString(36)}`
-
-    //     request({
-    //         method: 'POST',
-    //         path: `/v1/apps/${appid}/policies`,
-    //         body: {
-    //             name: policy
-    //         }
-    //     })
-    //         .then((response) => {
-    //             console.log(1, policies.value)
-    //             policies.value.push({ appid, name: policy })
-    //             console.log(2, policies.value)
-    //         })
-    //         .catch((err) => {
-    //             alert(err.message)
-    //         })
-    // }
-    // 获取策略
-    // const getPolicy = async (appid: string) => {
-    //     const exist = policies.value.find(
-    //         (item: PolicyObj) => appid === item.appid
-    //     )
-    //     if (!exist) {
-    //         alert('没找到历史记录，请重新创建')
-    //     }
-
-    //     request({
-    //         path: `/v1/apps/${appid}/policies`
-    //     })
-    //         .then((response) => {
-    //             console.log('res', response)
-    //         })
-    //         .catch((err) => {
-    //             alert(err.message)
-    //         })
-    // }
-
     // 列表
     const list = ref([])
 
@@ -110,8 +47,8 @@ export const usePolicyStore = defineStore('usePolicyStore', () => {
         })
     }
 
+    // 创建一个策略
     const create = () => {
-        // 生成一个策略名字
         const policy = `laf_curd_${getRandomInt(479890, 1679615).toString(36)}`
         return new Promise((resolve, reject) => {
             request({
@@ -174,8 +111,6 @@ export const usePolicyStore = defineStore('usePolicyStore', () => {
     }
 
     return {
-        // createPolicy,
-        // getPolicy,
         list,
         fetch,
         create,

@@ -1,3 +1,12 @@
+<!--
+ * @Author: NMTuan
+ * @Email: NMTuan@qq.com
+ * @Date: 2023-07-01 13:22:04
+ * @LastEditTime: 2023-07-02 17:22:32
+ * @LastEditors: NMTuan
+ * @Description: 
+ * @FilePath: \laf_curd\components\applications\list\func.vue
+-->
 <template>
     <div class="text-sm">
         <span class="button button--disabled">云函数</span>
@@ -6,11 +15,7 @@
                 appid
             }
         }">数据库</NuxtLink>
-        <NuxtLink class="button" :to="{
-            name: 'app-appid-policy', params: {
-                appid
-            }
-        }">访问策略</NuxtLink>
+        <span class="button button--disabled">访问策略</span>
         <span class="button button--disabled">云存储</span>
     </div>
 </template>

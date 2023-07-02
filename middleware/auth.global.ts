@@ -12,7 +12,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
     const configStore = useConfigStore()
 
     console.log('to', to)
-    // console.log('userStore', userStore.whiteList)
 
     // 不在白名单, 而且没token
     if (!userStore.whiteList.includes(to.path) && !userStore.token) {
@@ -21,7 +20,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
     // 随时切换 appid
     if (to.params.appid) {
-        // configStore.appid = to.params.appid.toString()
         configStore.$patch({ appid: to.params.appid.toString() })
     }
 })

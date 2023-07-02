@@ -2,38 +2,70 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-01 17:34:07
- * @LastEditTime: 2023-07-02 17:11:55
+ * @LastEditTime: 2023-07-02 18:19:26
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\database\response.vue
 -->
 <template>
     <div class="break-words px-6 py-2">
-        <div v-if="!queryStore.response.ok && queryStore.response.message === 'Request failed with status code 404'">
-            404 !!!
-        </div>
+        <LayoutLoading :loading="loading"></LayoutLoading>
         <div v-if="!queryStore.response.ok && queryStore.response.message === 'permission denied'">
             <div v-if="/^collection.*?not found$/.test(queryStore.response.data[0].error)">
-                权限不足，<span @click="createPolicy">一键创建策略</span>
+                权限不足，一键<span @click="createPolicy" class="a">创建策略规则</span>
             </div>
             <div v-if="queryStore.response.data[0].error === 'the expression evaluated to a falsy value'">
-                权限不足，<span @click="updatePolicy">一键更新策略</span>
+                权限不足，一键<span @click="updatePolicy" class="a">更新策略规则</span>
             </div>
+        </div>
+        <div v-else-if="queryStore.response.ok && queryStore.response.message">
+            {{ queryStore.response.message }}
         </div>
         <pre v-else>{{ queryStore.response }}</pre>
 
     </div>
 </template>
 <script setup>
-const route = useRoute()
+import { usePolicyStore } from '@/stores/policy';
+const loading = ref(false)
 const queryStore = useQueryStore()
 const policyStore = usePolicyStore()
 
 
-const createPolicy = async () => {
+const createPolicy = () => {
+    loading.value = true
     policyStore.createRule()
+        .then(() => {
+            queryStore.updateResponse({
+                ok: true,
+                message: '策略已创建，请片刻后重新执行查询'
+            })
+        })
+        .catch(() => { })
+        .finally(() => {
+            loading.value = false
+        })
 }
-const updatePolicy = async () => {
+const updatePolicy = () => {
+    loading.value = true
     policyStore.updateRule()
+        .then(() => {
+            queryStore.updateResponse({
+                ok: true,
+                message: '策略已更新，请片刻后重新执行查询'
+            })
+        })
+        .catch(() => { })
+        .finally(() => {
+            loading.value = false
+        })
 }
 </script>
+<style scoped lang="scss">
+.a {
+    @apply text-teal-500;
+    @apply cursor-pointer;
+    @apply ml-2;
+    --at-apply: hover:(text-teal-600);
+}
+</style>

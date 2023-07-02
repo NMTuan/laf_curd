@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-01 19:13:03
- * @LastEditTime: 2023-07-02 17:24:19
+ * @LastEditTime: 2023-07-02 18:16:58
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\stores\policy.ts
@@ -70,6 +70,13 @@ export const usePolicyStore = defineStore('usePolicyStore', () => {
     // 创建规则
     const createRule = () => {
         return new Promise((resolve, reject) => {
+            const cfm = confirm(
+                `该操作会创建以下策略规则，确定要创建么？
+${JSON.stringify(rule, null, 2)}`
+            )
+            if (!cfm) {
+                return reject()
+            }
             request({
                 path: `/v1/apps/${configStore.appid}/policies/${policy.value}/rules`,
                 method: 'POST',
@@ -93,6 +100,13 @@ export const usePolicyStore = defineStore('usePolicyStore', () => {
     // 更新规则
     const updateRule = () => {
         return new Promise((resolve, reject) => {
+            const cfm = confirm(
+                `该操作会将当前策略规则更新为以下内容，确定要更新么？
+${JSON.stringify(rule, null, 2)}`
+            )
+            if (!cfm) {
+                return reject()
+            }
             request({
                 path: `/v1/apps/${configStore.appid}/policies/${policy.value}/rules/${queryStore.collection.name}`,
                 method: 'PATCH',

@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-01 17:34:07
- * @LastEditTime: 2023-07-02 18:19:26
+ * @LastEditTime: 2023-07-02 20:30:50
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\database\response.vue
@@ -10,19 +10,27 @@
 <template>
     <div class="break-words px-6 py-2">
         <LayoutLoading :loading="loading"></LayoutLoading>
-        <div v-if="!queryStore.response.ok && queryStore.response.message === 'permission denied'">
-            <div v-if="/^collection.*?not found$/.test(queryStore.response.data[0].error)">
-                权限不足，一键<span @click="createPolicy" class="a">创建策略规则</span>
-            </div>
-            <div v-if="queryStore.response.data[0].error === 'the expression evaluated to a falsy value'">
-                权限不足，一键<span @click="updatePolicy" class="a">更新策略规则</span>
+        <div v-if="!queryStore.response.ok">
+            <template v-if="queryStore.response.message === 'permission denied'">
+                <div v-if="/^collection.*?not found$/.test(queryStore.response.data[0].error)">
+                    权限不足，一键<span @click="createPolicy" class="a">创建策略规则</span>
+                </div>
+                <div v-if="queryStore.response.data[0].error === 'the expression evaluated to a falsy value'">
+                    权限不足，一键<span @click="updatePolicy" class="a">更新策略规则</span>
+                </div>
+            </template>
+            <div v-else-if="queryStore.response.message">
+                {{ queryStore.response.message }}
             </div>
         </div>
-        <div v-else-if="queryStore.response.ok && queryStore.response.message">
-            {{ queryStore.response.message }}
+        <div v-if="queryStore.response.ok">
+            <div v-if="queryStore.response.message">
+                {{ queryStore.response.message }}
+            </div>
+            <DatabaseTable v-else-if="Array.isArray(queryStore.response.data)" :data="queryStore.response.data">
+            </DatabaseTable>
+            <pre v-else>{{ queryStore.response }}</pre>
         </div>
-        <pre v-else>{{ queryStore.response }}</pre>
-
     </div>
 </template>
 <script setup>

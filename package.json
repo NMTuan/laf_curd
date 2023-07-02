@@ -1,0 +1,24 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@iconify-json/ri": "^1.1.10",
+    "@nuxt/devtools": "latest",
+    "@types/node": "^18",
+    "@unocss/nuxt": "^0.53.4",
+    "nuxt": "^3.6.1",
+    "sass": "^1.63.6"
+  },
+  "dependencies": {
+    "@pinia/nuxt": "^0.4.11",
+    "laf-client-sdk": "^1.0.0-beta.8",
+    "pinia": "^2.1.4"
+  }
+}

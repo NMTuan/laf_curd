@@ -19,10 +19,17 @@ export const useQueryStore = defineStore('useQueryStore', () => {
     // 查询结果
     const response = ref({})
 
+    const clear = () => {
+        collection.value = {}
+        policy.value = ''
+        response.value = {}
+    }
+
     return {
         collection,
         policy,
         query,
-        response
+        response,
+        clear
     }
 })

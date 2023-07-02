@@ -2,40 +2,54 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-06-30 20:33:22
- * @LastEditTime: 2023-06-30 20:53:15
+ * @LastEditTime: 2023-07-03 07:04:37
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\pages\welcome.vue
 -->
 <template>
-    <div>
+    <LayoutPanel title="welcome !">
+        <LayoutLoading :loading="loading"></LayoutLoading>
         <div v-if="error">error</div>
-        welcome !
 
-        <p>requestUrl：{{ requestUrl }}</p>
+        <p>请先配置以下信息：</p>
 
-        <p>pat：{{ pat }}</p>
+
+        <p>api url: <input type="text" v-model="configStore.apiUrl"></p>
+        <p>pat: <input type="text" v-model="configStore.pat"></p>
+        <p>base url: <input type="text" v-model="configStore.baseDomain">
+            laf-client-sdk 中baseUrl：“https://APPID.laf.run”的根域名</p>
+
+
+
+        <!-- <p>requestUrl：{{ requestUrl }}</p> -->
+
+        <!-- <p>pat：{{ pat }}</p> -->
 
         <p><button @click="handlerLogin">login</button></p>
-    </div>
+    </LayoutPanel>
 </template>
 <script setup>
-const runtimeConfig = useRuntimeConfig()
+import { useConfigStore } from '@/stores/config';
+// const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
-const { requestUrl, pat } = runtimeConfig.public
+const configStore = useConfigStore()
+// const { requestUrl, pat } = runtimeConfig.public
 const error = ref(false)
+const loading = ref(false)
 
 const handlerLogin = async () => {
-    if (!requestUrl || !pat) {
+    if (!configStore.apiUrl || !configStore.pat || !configStore.baseDomain) {
         error.value = true
         return
     }
     error.value = false
+    loading.value = true
     request({
         path: '/v1/auth/pat2token',
         method: 'POST',
         body: {
-            pat
+            pat: configStore.pat
         }
     })
         .then(res => {
@@ -48,6 +62,9 @@ const handlerLogin = async () => {
         })
         .catch(err => {
             error.value = true
+        })
+        .finally(() => {
+            loading.value = false
         })
 }
 

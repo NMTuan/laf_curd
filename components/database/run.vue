@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-01 16:51:11
- * @LastEditTime: 2023-07-02 21:03:41
+ * @LastEditTime: 2023-07-03 07:09:47
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\database\run.vue
@@ -20,7 +20,9 @@
 </template>
 <script setup>
 import { Cloud } from 'laf-client-sdk'
+import { useConfigStore } from '@/stores/config'
 const queryStore = useQueryStore()
+const configStore = useConfigStore()
 const route = useRoute()
 const { appid } = route.params
 const loading = ref(false)
@@ -36,7 +38,7 @@ watchEffect(() => {
         return
     }
     const cloud = new Cloud({
-        baseUrl: `https://${appid}.laf.run`,
+        baseUrl: `https://${appid}.${configStore.baseDomain}`,
         dbProxyUrl: `/proxy/${queryStore.policy}`
     })
     queryStore.updateCloud(cloud)

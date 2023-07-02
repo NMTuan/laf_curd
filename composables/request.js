@@ -2,15 +2,16 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-06-27 15:59:25
- * @LastEditTime: 2023-07-02 17:12:56
+ * @LastEditTime: 2023-07-03 07:05:50
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\composables\request.js
  */
 export const request = (params) => {
     // let loading
-    const runtimeConfig = useRuntimeConfig()
+    // const runtimeConfig = useRuntimeConfig()
     const userStore = useUserStore()
+    const configStore = useConfigStore()
 
     const defaultParams = {
         url: undefined,
@@ -24,7 +25,7 @@ export const request = (params) => {
     params = { ...defaultParams, ...params }
 
     // 如果传了url则使用，否则用env中配置项。
-    const url = (params.url || runtimeConfig.public.requestUrl) + params.path
+    const url = (params.url || configStore.apiUrl) + params.path
     delete params.url
     delete params.path
 

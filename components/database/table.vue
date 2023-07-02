@@ -4,21 +4,27 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th></th>
+                    <th class="flex items-center justify-center font-bold text-lg">
+                        <div class="i-ri-settings-4-line"></div>
+                    </th>
                     <th v-for="item in fields">{{ item }}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="item in data">
                     <td class="whitespace-nowrap">
-                        <div v-if="item._id" @click="detail(item._id)" class="detail">【详情】</div>
-                        <div v-if="item._id" @click="edit(item._id)" class="edit">【编辑】</div>
+                        <div v-if="item._id" @click="detail(item)" class="detail">【详情】</div>
+                        <div v-if="item._id" @click="edit(item)" class="edit">【编辑】</div>
                         <div v-if="item._id" @click="remove(item._id)" class="remove">【删除】</div>
                     </td>
                     <td v-for="field in fields">{{ item[field] }}</td>
                 </tr>
             </tbody>
         </table>
+        <LayoutDrawer v-model:visible="drawerVisible">
+            <DatabaseDetail v-if="type === 'detail'" :data="currentItem"></DatabaseDetail>
+            <DatabaseEdit v-if="type === 'edit'" :data="currentItem" @close="drawerVisible = false"></DatabaseEdit>
+        </LayoutDrawer>
     </div>
 </template>
 <script setup>
@@ -30,13 +36,23 @@ const props = defineProps({
     }
 })
 const loading = ref(false)
-
+const drawerVisible = ref(false)
+const type = ref('')
 const fields = computed(() => {
     return props.data[0] ? Object.keys(props.data[0]) : []
 })
+const currentItem = ref()
 
-const detail = () => { }
-const edit = () => { }
+const detail = (item) => {
+    drawerVisible.value = true
+    type.value = 'detail'
+    currentItem.value = JSON.parse(JSON.stringify(item))
+}
+const edit = (item) => {
+    drawerVisible.value = true
+    type.value = 'edit'
+    currentItem.value = JSON.parse(JSON.stringify(item))
+}
 const remove = async (id) => {
     if (!id) {
         return

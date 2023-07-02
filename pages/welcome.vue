@@ -40,7 +40,9 @@ const handlerLogin = async () => {
     })
         .then(res => {
             if (res.data) {
-                userStore.update_token(res.data)
+                userStore.$patch({
+                    token: res.data
+                })
                 navigateTo({ name: 'index' })
             }
         })

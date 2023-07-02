@@ -1,21 +1,26 @@
+<!--
+ * @Author: NMTuan
+ * @Email: NMTuan@qq.com
+ * @Date: 2023-06-30 21:03:04
+ * @LastEditTime: 2023-07-02 11:43:42
+ * @LastEditors: NMTuan
+ * @Description: 
+ * @FilePath: \laf_curd\components\applications\list.vue
+-->
 <template>
-    <div>
-        <h1>applications</h1>
-        <div v-if="error">error</div>
-        <ApplicationsListItem v-for="item in list" :data="item"></ApplicationsListItem>
-    </div>
+    <LayoutPanel title="Application" :loading="loading">
+        <ApplicationsListItem v-for="item in appStore.list" :data="item"></ApplicationsListItem>
+    </LayoutPanel>
 </template>
 <script setup>
-const error = ref(false)
-const list = ref([])
+const appStore = useAppStore()
+const loading = ref(false)
 
-request({
-    path: '/v1/applications'
-})
-    .then(res => {
-        list.value = res.data
-    })
-    .catch(err => {
-        error.value = true
-    })
+const getList = async () => {
+    loading.value = true
+    await appStore.fetch()
+    loading.value = false
+}
+
+getList()
 </script>

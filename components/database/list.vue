@@ -2,29 +2,26 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-06-30 21:25:04
- * @LastEditTime: 2023-06-30 21:54:01
+ * @LastEditTime: 2023-07-02 11:13:15
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\database\list.vue
 -->
 <template>
-    <div>
-        <h2>database</h2>
-        <div v-if="error">error</div>
-        <DatabaseListItem v-for="item in list" :data="item"></DatabaseListItem>
+    <div class="relative h-full">
+        <LayoutLoading :loading="loading"></LayoutLoading>
+        <DatabaseListItem v-for="item in collectionStore.list" :data="item"></DatabaseListItem>
     </div>
 </template>
 <script setup>
-const error = ref(false)
-const route = useRoute()
-const list = ref([])
-request({
-    path: `/v1/apps/${route.params.appid}/collections`,
-})
-    .then(res => {
-        list.value = res.data
-    })
-    .catch(err => {
-        error.value = true
-    })
+const collectionStore = useCollectionStore()
+const loading = ref(false)
+
+const getList = async () => {
+    loading.value = true
+    await collectionStore.fetch()
+    loading.value = false
+}
+
+getList()
 </script>

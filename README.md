@@ -38,7 +38,7 @@
 > cloud.database().collection("user").where({ age: _.gt(18) }.get()
 > ```
 
-我们可以在左侧点击 `user`集合，然后数据框中填写 `where({ age: _.gt(18) }` 点击前方的 `▶`即可。
+我们可以在左侧点击 `user`集合，然后数据框中填写 `where({ age: _.gt(18) }).get()` 点击前方的 `▶`即可。
 
 > 注意：这里是支持`_`关键字的。具体查询语句可以参考[官方手册](https://doc.laf.run/guide/db/find.html)。
 

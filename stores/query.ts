@@ -2,18 +2,23 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-01 17:16:50
- * @LastEditTime: 2023-07-11 14:47:04
+ * @LastEditTime: 2023-07-12 07:05:45
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\stores\query.ts
  */
 import { defineStore } from 'pinia'
+interface History {
+    statement: string
+    date: number
+}
 
 export const useQueryStore = defineStore('useQueryStore', () => {
     // 当前集合
     const collection = ref({})
     // 查询语句
     const statement = ref('get()')
+    const history: Ref<History[]> = ref([])
     // cloud 实例
     const cloud = ref()
     const updateCloud = (newCloud) => {
@@ -36,6 +41,7 @@ export const useQueryStore = defineStore('useQueryStore', () => {
                 )
                     .then((res) => {
                         response.value = res
+                        addHistory()
                         resolve('')
                     })
                     .catch((err) => {
@@ -67,6 +73,16 @@ export const useQueryStore = defineStore('useQueryStore', () => {
     // 手工更新查询结果
     const updateResponse = (val: object) => {
         response.value = val
+    }
+    // 插入历史
+    const addHistory = () => {
+        history.value = history.value.filter((item) => {
+            return item.statement !== statement.value
+        })
+        history.value.push({
+            statement: statement.value,
+            date: Date.now()
+        })
     }
 
     // 切换appid的时候，清理暂存信息
@@ -114,6 +130,19 @@ export const useQueryStore = defineStore('useQueryStore', () => {
         })
     }
 
+    watchEffect(() => {
+        if (history.value.length === 0) {
+            history.value = JSON.parse(
+                localStorage.getItem('laf_curd_query_history') || []
+            )
+        } else {
+            localStorage.setItem(
+                'laf_curd_query_history',
+                JSON.stringify(history.value)
+            )
+        }
+    })
+
     return {
         collection,
         statement,
@@ -124,6 +153,7 @@ export const useQueryStore = defineStore('useQueryStore', () => {
         updateResponse,
         clear,
         updateById,
-        removeById
+        removeById,
+        history
     }
 })

@@ -2,13 +2,14 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-06-30 19:16:42
- * @LastEditTime: 2023-07-03 15:06:46
+ * @LastEditTime: 2023-07-12 06:55:40
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\nuxt.config.ts
  */
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+    ssr: false,
     app: {
         head: {
             script: [

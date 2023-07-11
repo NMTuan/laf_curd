@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-01 16:51:11
- * @LastEditTime: 2023-07-11 21:24:01
+ * @LastEditTime: 2023-07-12 07:24:42
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\database\run.vue
@@ -16,7 +16,13 @@
             </button>
             <textarea ref="textarea" class="block flex-1 px-4 py-2 font-mono text-sm min-h-32"
                 v-model="queryStore.statement" @keydown="handlerKeydown"></textarea>
+            <button @click="showHistory">
+                <div class="i-ri-history-fill text-2xl mx-2"></div>
+            </button>
         </div>
+        <LayoutDrawer v-model:visible="drawerVisible">
+            <DatabaseHistory @close="closeDrawer"></DatabaseHistory>
+        </LayoutDrawer>
     </div>
 </template>
 <script setup>
@@ -28,6 +34,7 @@ const configStore = useConfigStore()
 const useStore = useUserStore()
 const loading = ref(false)
 const textarea = ref()
+const drawerVisible = ref(false)
 
 const query = async () => {
     loading.value = true
@@ -42,7 +49,6 @@ const handlerKeydown = (e) => {
         const startPos = textarea.value.selectionStart;
         const endPos = textarea.value.selectionEnd;
         const value = queryStore.statement;
-        console.log('value', value)
         queryStore.statement = value.slice(0, startPos) + '    ' + value.slice(endPos);
 
         // 将光标移动到插入空格后的位置
@@ -57,6 +63,12 @@ const handlerKeydown = (e) => {
     }
 }
 
+const showHistory = () => {
+    drawerVisible.value = true
+}
+const closeDrawer = () => {
+    drawerVisible.value = false
+}
 watchEffect(() => {
     const cloud = new Cloud({
         baseUrl: `${configStore.apiUrl}`,

@@ -17,9 +17,6 @@
 
         <p>api url: <input type="text" v-model="configStore.apiUrl"></p>
         <p>pat: <input type="text" v-model="configStore.pat"></p>
-        <p>base url: <input type="text" v-model="configStore.baseDomain">
-            laf-client-sdk 中baseUrl：“https://APPID.laf.run”的根域名</p>
-
 
 
         <!-- <p>requestUrl：{{ requestUrl }}</p> -->
@@ -39,7 +36,7 @@ const error = ref(false)
 const loading = ref(false)
 
 const handlerLogin = async () => {
-    if (!configStore.apiUrl || !configStore.pat || !configStore.baseDomain) {
+    if (!configStore.apiUrl || !configStore.pat) {
         error.value = true
         return
     }

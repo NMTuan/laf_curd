@@ -11,8 +11,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
     const userStore = useUserStore()
     const configStore = useConfigStore()
 
-    console.log('to', to)
-
     // 不在白名单, 而且没token
     if (!userStore.whiteList.includes(to.path) && !userStore.token) {
         return navigateTo('/welcome')

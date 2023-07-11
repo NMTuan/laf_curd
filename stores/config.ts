@@ -6,16 +6,10 @@ export const useConfigStore = defineStore('useConfigStore', () => {
         default: () => 'https://api.laf.run'
     })
     const pat = useCookie('laf_curd_pat')
-    const baseDomain = useCookie('laf_curd_baseDomain', {
-        default: () => 'laf.run'
-    })
-
-    // apiUrl.value = apiUrl.value || ''
 
     return {
         appid,
         apiUrl,
-        pat,
-        baseDomain
+        pat
     }
 })

@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-01 16:51:11
- * @LastEditTime: 2023-07-12 07:24:42
+ * @LastEditTime: 2023-07-12 07:39:09
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\database\run.vue
@@ -43,9 +43,12 @@ const query = async () => {
 }
 
 const handlerKeydown = (e) => {
-    const { key, ctrlKey, altKey } = e
+    const { key, ctrlKey, altKey, shiftKey } = e
     if (key.toLocaleLowerCase() === 'tab') {
         e.preventDefault()
+        if (shiftKey) {
+            return
+        }
         const startPos = textarea.value.selectionStart;
         const endPos = textarea.value.selectionEnd;
         const value = queryStore.statement;

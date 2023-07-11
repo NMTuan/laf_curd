@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-06-27 15:59:25
- * @LastEditTime: 2023-07-03 07:05:50
+ * @LastEditTime: 2023-07-11 11:39:41
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\composables\request.js
@@ -61,7 +61,10 @@ export const request = (params) => {
                 }
             })
             .catch((err) => {
-                if (err.response) {
+                if (err.response.status === 401) {
+                    alert('登录超时，请重新登录')
+                    navigateTo({name: 'welcome'})
+                }else if (err.response) {
                     alert(JSON.stringify(err.response.data, null, 2))
                 }
                 reject(err)

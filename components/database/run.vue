@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-01 16:51:11
- * @LastEditTime: 2023-07-11 14:43:30
+ * @LastEditTime: 2023-07-11 21:24:01
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\database\run.vue
@@ -14,7 +14,8 @@
             <button @click="query">
                 <div class="i-ri-play-fill text-2xl mx-2"></div>
             </button>
-            <input class="block flex-1  px-4 py-2 text-base font-mono" v-model="queryStore.statement" />
+            <textarea ref="textarea" class="block flex-1 px-4 py-2 font-mono text-sm min-h-32"
+                v-model="queryStore.statement" @keydown="handlerKeydown"></textarea>
         </div>
     </div>
 </template>
@@ -25,13 +26,35 @@ import { useUserStore } from '@/stores/user';
 const queryStore = useQueryStore()
 const configStore = useConfigStore()
 const useStore = useUserStore()
-const route = useRoute()
 const loading = ref(false)
+const textarea = ref()
 
 const query = async () => {
     loading.value = true
     await queryStore.query()
     loading.value = false
+}
+
+const handlerKeydown = (e) => {
+    const { key, ctrlKey, altKey } = e
+    if (key.toLocaleLowerCase() === 'tab') {
+        e.preventDefault()
+        const startPos = textarea.value.selectionStart;
+        const endPos = textarea.value.selectionEnd;
+        const value = queryStore.statement;
+        console.log('value', value)
+        queryStore.statement = value.slice(0, startPos) + '    ' + value.slice(endPos);
+
+        // 将光标移动到插入空格后的位置
+        nextTick(() => {
+            textarea.value.selectionStart = startPos + 4;
+            textarea.value.selectionEnd = startPos + 4;
+        });
+    }
+    if (key.toLocaleLowerCase() === 'enter' && (ctrlKey || altKey)) {
+        e.preventDefault()
+        query()
+    }
 }
 
 watchEffect(() => {

@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-01 16:51:11
- * @LastEditTime: 2023-07-03 07:09:47
+ * @LastEditTime: 2023-07-11 14:43:30
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\database\run.vue
@@ -21,10 +21,11 @@
 <script setup>
 import { Cloud } from 'laf-client-sdk'
 import { useConfigStore } from '@/stores/config'
+import { useUserStore } from '@/stores/user';
 const queryStore = useQueryStore()
 const configStore = useConfigStore()
+const useStore = useUserStore()
 const route = useRoute()
-const { appid } = route.params
 const loading = ref(false)
 
 const query = async () => {
@@ -34,12 +35,12 @@ const query = async () => {
 }
 
 watchEffect(() => {
-    if (!queryStore.policy) {
-        return
-    }
     const cloud = new Cloud({
-        baseUrl: `https://${appid}.${configStore.baseDomain}`,
-        dbProxyUrl: `/proxy/${queryStore.policy}`
+        baseUrl: `${configStore.apiUrl}`,
+        dbProxyUrl: `/v1/apps/${configStore.appid}/databases/proxy`,
+        getAccessToken: () => {
+            return useStore.token
+        }
     })
     queryStore.updateCloud(cloud)
 })

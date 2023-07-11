@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-01 17:16:50
- * @LastEditTime: 2023-07-03 06:42:28
+ * @LastEditTime: 2023-07-11 14:47:04
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\stores\query.ts
@@ -12,8 +12,6 @@ import { defineStore } from 'pinia'
 export const useQueryStore = defineStore('useQueryStore', () => {
     // 当前集合
     const collection = ref({})
-    // 当前策略
-    const policy = ref('') //useCookie(`laf_curd_policy`)
     // 查询语句
     const statement = ref('get()')
     // cloud 实例
@@ -28,13 +26,6 @@ export const useQueryStore = defineStore('useQueryStore', () => {
                 response.value = {
                     ok: false,
                     message: '请在左侧选择您要查询的集合'
-                }
-                return resolve('')
-            }
-            if (!policy.value) {
-                response.value = {
-                    ok: false,
-                    message: '请在上方选择访问策略'
                 }
                 return resolve('')
             }
@@ -81,7 +72,6 @@ export const useQueryStore = defineStore('useQueryStore', () => {
     // 切换appid的时候，清理暂存信息
     const clear = () => {
         collection.value = {}
-        policy.value = ''
         response.value = {}
     }
 
@@ -126,7 +116,6 @@ export const useQueryStore = defineStore('useQueryStore', () => {
 
     return {
         collection,
-        policy,
         statement,
         query,
         cloud,

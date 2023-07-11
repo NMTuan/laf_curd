@@ -43,7 +43,7 @@ formData.value = JSON.stringify(props.data, null, 4)
 
 const submit = async () => {
     try {
-        console.log(JSON.parse(formData.value))
+        // console.log(JSON.parse(formData.value))
         loading.value = true
         await queryStore.updateById(JSON.parse(formData.value))
         loading.value = false

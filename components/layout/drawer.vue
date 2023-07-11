@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-02 21:23:08
- * @LastEditTime: 2023-07-02 22:12:41
+ * @LastEditTime: 2023-07-11 14:58:59
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\layout\drawer.vue
@@ -54,7 +54,7 @@ watch(() => props.visible, (val) => {
     &_container {
         // animation: rtl-drawer-in .3s 1ms;
         @apply bg-white;
-        @apply w-30% h-full overflow-auto;
+        @apply w-30% min-w-640px h-full overflow-auto;
         @apply ml-auto;
     }
 }

@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-12 10:50:52
- * @LastEditTime: 2023-07-12 23:05:05
+ * @LastEditTime: 2023-07-13 07:25:42
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\pages\manager.vue
@@ -11,8 +11,10 @@
     <NuxtLayout name="manager">
         <div class="flex h-screen overflow-hidden">
             <div class="flex flex-col w-280px flex-shrink-0 bg-gray-50">
-                <div class="flex-shrink-0 h-18">
-                    <NuxtLink to="/manager/">logo</NuxtLink>
+                <div class="flex flex-shrink-0 h-18">
+                    <div class="flex-1 border-b border-b-solid border-b-gray-200">
+                        <NuxtLink to="/manager/">logo</NuxtLink>
+                    </div>
                 </div>
                 <div class="flex-1 overflow-hidden">
                     <ScrollBox>

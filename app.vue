@@ -8,9 +8,7 @@
  * @FilePath: \laf_curd\app.vue
 -->
 <template>
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+  <NuxtPage />
 </template>
 <script setup>
 import { useConfigStore } from '@/stores/config'

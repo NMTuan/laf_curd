@@ -21,6 +21,7 @@
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
     "laf-client-sdk": "^1.0.0-beta.8",
-    "pinia": "^2.1.4"
+    "pinia": "^2.1.4",
+    "simplebar-vue": "^2.3.3"
   }
 }

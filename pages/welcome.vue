@@ -8,26 +8,26 @@
  * @FilePath: \laf_curd\pages\welcome.vue
 -->
 <template>
-    <LayoutPanel title="welcome !">
-        <LayoutLoading :loading="loading"></LayoutLoading>
-        <div v-if="error">error</div>
+    <NuxtLayout>
+        <LayoutPanel title="welcome !">
+            <LayoutLoading :loading="loading"></LayoutLoading>
+            <div v-if="error">error</div>
 
-        <p>请先配置以下信息：</p>
+            <p>请先配置以下信息：</p>
 
+            <p>api url: <input type="text" v-model="configStore.apiUrl" /></p>
+            <p>pat: <input type="text" v-model="configStore.pat" /></p>
 
-        <p>api url: <input type="text" v-model="configStore.apiUrl"></p>
-        <p>pat: <input type="text" v-model="configStore.pat"></p>
+            <!-- <p>requestUrl：{{ requestUrl }}</p> -->
 
+            <!-- <p>pat：{{ pat }}</p> -->
 
-        <!-- <p>requestUrl：{{ requestUrl }}</p> -->
-
-        <!-- <p>pat：{{ pat }}</p> -->
-
-        <p><button @click="handlerLogin">login</button></p>
-    </LayoutPanel>
+            <p><button @click="handlerLogin">login</button></p>
+        </LayoutPanel>
+    </NuxtLayout>
 </template>
 <script setup>
-import { useConfigStore } from '@/stores/config';
+import { useConfigStore } from '@/stores/config'
 // const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const configStore = useConfigStore()
@@ -49,7 +49,7 @@ const handlerLogin = async () => {
             pat: configStore.pat
         }
     })
-        .then(res => {
+        .then((res) => {
             if (res.data) {
                 userStore.$patch({
                     token: res.data
@@ -57,12 +57,11 @@ const handlerLogin = async () => {
                 navigateTo({ name: 'index' })
             }
         })
-        .catch(err => {
+        .catch((err) => {
             error.value = true
         })
         .finally(() => {
             loading.value = false
         })
 }
-
 </script>

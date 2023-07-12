@@ -14,11 +14,11 @@ export const useCollectionStore = defineStore('useCollectionStore', () => {
     const list = ref([])
 
     // 获取列表
-    const fetch = () => {
+    const fetch = (appid) => {
         const configStore = useConfigStore()
         return new Promise((resolve, reject) => {
             request({
-                path: `/v1/apps/${configStore.appid}/collections`
+                path: `/v1/apps/${configStore.appid || appid}/collections`
             })
                 .then((res) => {
                     list.value = res.data

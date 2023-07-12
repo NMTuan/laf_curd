@@ -8,5 +8,7 @@
  * @FilePath: \laf_curd\pages\index.vue
 -->
 <template>
-    <ApplicationsList></ApplicationsList>
+    <NuxtLayout>
+        <ApplicationsList></ApplicationsList>
+    </NuxtLayout>
 </template>

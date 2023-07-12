@@ -132,9 +132,8 @@ export const useQueryStore = defineStore('useQueryStore', () => {
 
     watchEffect(() => {
         if (history.value.length === 0) {
-            history.value = JSON.parse(
-                localStorage.getItem('laf_curd_query_history') || []
-            )
+            history.value =
+                JSON.parse(localStorage.getItem('laf_curd_query_history')) || []
         } else {
             localStorage.setItem(
                 'laf_curd_query_history',

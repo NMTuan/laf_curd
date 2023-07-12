@@ -3,8 +3,8 @@
         <el-tree class="tree" :props="defaultProps" @node-click="handleNodeClick" lazy :load="handlerLoad" :indent="24"
             highlight-current>
             <template #default="{ node, data }">
-                <div v-if="node.level === 1" class="flex-1 flex items-center justify-between text-base">
-                    <div class="flex items-center" @click="handlerClick(node, data)">
+                <div v-if="node.level === 1" class="flex-1 h-full flex items-center justify-between text-base bg-green-200">
+                    <div class="flex items-center bg-purple-200" @click="handlerClick(node, data)">
                         <i class="block i-ri-apps-line mr-2"></i>
                         {{ data.name }}
                     </div>
@@ -12,11 +12,12 @@
                         <i class="block i-ri-refresh-line"></i>
                     </div>
                 </div>
-                <div v-if="node.level === 2" class="flex items-center justify-between text-sm">
-                    <div class="flex items-center" @click="handlerClick(node, data)">
+                <div v-if="node.level === 2" class="flex-1 h-full flex items-stretch justify-between text-sm bg-sky-200">
+                    <div class="flex items-center bg-red-200" @dblclick="clickCollection(node, data)">
                         <i class="block i-ri-file-list-line mr-2"></i>
                         {{ data.name }}
                     </div>
+                    <div>x</div>
                 </div>
             </template>
         </el-tree>
@@ -63,7 +64,9 @@ const handlerClick = (node, data) => {
     console.log('data', data)
 }
 
-
+const clickCollection = (node, data) => {
+    console.log('dblclick', node, data)
+}
 
 // data.value = [
 //     {
@@ -129,7 +132,8 @@ const handlerClick = (node, data) => {
 
     ::v-deep {
         .tree-item {
-            // @apply text-base;
+            @apply text-base;
+            @apply bg-yellow-200;
 
             .el-tree-node__content {
                 @apply py-1;

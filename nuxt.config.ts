@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-06-30 19:16:42
- * @LastEditTime: 2023-07-12 06:55:40
+ * @LastEditTime: 2023-07-12 10:40:03
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\nuxt.config.ts
@@ -20,7 +20,7 @@ export default defineNuxtConfig({
         }
     },
     css: ['@unocss/reset/normalize.css'],
-    modules: ['@unocss/nuxt', '@pinia/nuxt'],
+    modules: ['@unocss/nuxt', '@pinia/nuxt', '@element-plus/nuxt'],
     devtools: { enabled: true },
     runtimeConfig: {
         public: {

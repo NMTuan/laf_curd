@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-06-30 19:16:42
- * @LastEditTime: 2023-07-12 14:45:54
+ * @LastEditTime: 2023-07-13 14:42:57
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\nuxt.config.ts
@@ -25,7 +25,7 @@ export default defineNuxtConfig({
         'simplebar-vue/dist/simplebar.min.css'
     ],
     modules: ['@unocss/nuxt', '@pinia/nuxt', '@element-plus/nuxt'],
-    devtools: { enabled: true },
+    devtools: { enabled: false },
     runtimeConfig: {
         public: {
             requestUrl: 'https://api.laf.run',

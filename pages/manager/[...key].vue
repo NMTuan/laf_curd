@@ -2,6 +2,7 @@
     <div class="overflow-hidden flex-1 flex flex-col">
         <div class="p-4">
             <el-button :disabled="currentRowIndex === -1" @click="detailVisible = true">Detail</el-button>
+            <el-button :disabled="currentRowIndex === -1" @click="editVisible = true">Edit</el-button>
         </div>
         <div class="flex-1 overflow-hidden flex flex-col" v-loading="loading">
             <div class="flex-1 overflow-hidden mx-4 border">
@@ -25,6 +26,7 @@
             </div>
         </div>
         <ManagerDetail :data="list[currentRowIndex]" v-model:visible="detailVisible"></ManagerDetail>
+        <ManagerEdit :id="list[currentRowIndex]?._id" v-model:visible="editVisible" @fetch="handlerFetch"></ManagerEdit>
     </div>
 </template>
 <script setup>
@@ -37,6 +39,7 @@ const page = ref(1) // 当前页码
 const pageSize = ref(20) // 每页数量
 const currentRowIndex = ref(-1) // 当前行索引
 const detailVisible = ref(false)
+const editVisible = ref(false)
 
 // 查询条件
 const query = computed(() => {
@@ -73,7 +76,6 @@ const handlerCount = () => {
 
 // 单元格的点击事件
 const handlerCellClick = ({ rowIndex }) => {
-    console.log('click')
     currentRowIndex.value = rowIndex
 }
 

@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-13 10:34:44
- * @LastEditTime: 2023-07-13 14:52:36
+ * @LastEditTime: 2023-07-13 21:00:34
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\composables\cloud.js
@@ -30,10 +30,13 @@ export const useCloud = () => {
             if (loading) {
                 loading.value = true
             }
+            query = query || {}
+            page = page || 1
+            pageSize = pageSize || 10
             collection
-                .where(query || {})
-                .skip(((page || 1) - 1) * pageSize)
-                .limit(pageSize || 10)
+                .where(query)
+                .skip((page - 1) * pageSize)
+                .limit(pageSize)
                 .get()
                 .then((res) => {
                     resolve(res)
@@ -71,10 +74,62 @@ export const useCloud = () => {
         })
     }
 
+    // 查询一条数据
+    const fetchOne = ({ query }, loading) => {
+        return new Promise((resolve, reject) => {
+            if (loading) {
+                loading.value = true
+            }
+            query = query || {}
+            collection
+                .where(query)
+                .getOne()
+                .then((res) => {
+                    resolve(res)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+                .finally(() => {
+                    if (loading) {
+                        loading.value = false
+                    }
+                })
+        })
+    }
+
+    // 更新数据
+    const update = ({ id, payload }, loading) => {
+        return new Promise((resolve, reject) => {
+            if (!id) {
+                reject()
+            }
+            if (loading) {
+                loading.value = true
+            }
+            payload = payload || {}
+            collection
+                .doc(id)
+                .update(payload)
+                .then((res) => {
+                    resolve(res)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+                .finally(() => {
+                    if (loading) {
+                        loading.value = false
+                    }
+                })
+        })
+    }
     return {
         _,
         collection,
         fetch,
-        count
+        count,
+        fetchOne,
+        update
     }
 }

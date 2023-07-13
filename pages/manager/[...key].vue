@@ -3,6 +3,7 @@
         <div class="p-4">
             <el-button :disabled="currentRowIndex === -1" @click="detailVisible = true">Detail</el-button>
             <el-button :disabled="currentRowIndex === -1" @click="editVisible = true">Edit</el-button>
+            <el-button :disabled="currentRowIndex === -1" @click="handlerDelete">Delete</el-button>
         </div>
         <div class="flex-1 overflow-hidden flex flex-col" v-loading="loading">
             <div class="flex-1 overflow-hidden mx-4 border">
@@ -30,7 +31,7 @@
     </div>
 </template>
 <script setup>
-const { fetch, count } = useCloud()
+const { fetch, count, remove } = useCloud()
 const columns = ref([]) // 表格列配置项
 const list = ref([]) // 表格数据
 const total = ref(0) // 总条数
@@ -86,6 +87,16 @@ const handlerRowClass = ({ rowIndex }) => {
     } else {
         return ''
     }
+}
+
+// 删除数据
+const handlerDelete = () => {
+    remove(list.value[currentRowIndex.value]._id)
+        .then(res => {
+            handlerFetch()
+        })
+        .catch(err => {
+        })
 }
 
 // 每当页面或条数变化，重新获取数据

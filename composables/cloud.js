@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-13 10:34:44
- * @LastEditTime: 2023-07-13 21:00:34
+ * @LastEditTime: 2023-07-14 07:45:58
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\composables\cloud.js
@@ -124,12 +124,65 @@ export const useCloud = () => {
                 })
         })
     }
+
+    const remove = (id) => {
+        return new Promise((resolve, reject) => {
+            if (!id) {
+                reject()
+            }
+            ElMessageBox.confirm(
+                'Are you sure you want to "remove" item ?',
+                'Warning',
+                {
+                    cancelButtonClass: 'is-text',
+                    confirmButtonClass: 'el-button--danger',
+                    beforeClose: async (action, ctx, done) => {
+                        if (action !== 'confirm') {
+                            ctx.confirmButtonLoading = false
+                            done()
+                            return
+                        }
+                        ctx.confirmButtonLoading = true
+                        collection
+                            .doc(id)
+                            .remove()
+                            .then((res) => {
+                                done()
+                                ElMessage({
+                                    message: 'remove success',
+                                    type: 'success'
+                                })
+
+                                resolve(res)
+                            })
+                            .catch((error) => {
+                                ElMessage({
+                                    message: 'err',
+                                    type: 'error'
+                                })
+                                reject(error)
+                            })
+                            .finally(() => {
+                                ctx.confirmButtonLoading = false
+                            })
+                    }
+                }
+            )
+                .then((action) => {
+                    resolve(action)
+                })
+                .catch((action) => {
+                    reject(action)
+                })
+        })
+    }
     return {
         _,
         collection,
         fetch,
         count,
         fetchOne,
-        update
+        update,
+        remove
     }
 }

@@ -11,7 +11,7 @@
   "devDependencies": {
     "@element-plus/nuxt": "^1.0.5",
     "@iconify-json/ri": "^1.1.10",
-    "@nuxt/devtools": "latest",
+    "@nuxt/devtools": "^0.6.7",
     "@types/node": "^18",
     "@unocss/nuxt": "^0.53.4",
     "element-plus": "^2.3.7",

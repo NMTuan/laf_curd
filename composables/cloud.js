@@ -125,6 +125,7 @@ export const useCloud = () => {
         })
     }
 
+    // 删除数据
     const remove = (id) => {
         return new Promise((resolve, reject) => {
             if (!id) {
@@ -176,6 +177,33 @@ export const useCloud = () => {
                 })
         })
     }
+
+    // 添加数据
+    const create = (payload, loading) => {
+        return new Promise((resolve, reject) => {
+            loading.value = true
+            collection
+                .add(payload)
+                .then((res) => {
+                    ElMessage({
+                        message: 'created success',
+                        type: 'success'
+                    })
+
+                    resolve(res)
+                })
+                .catch((error) => {
+                    ElMessage({
+                        message: 'err',
+                        type: 'error'
+                    })
+                    reject(error)
+                })
+                .finally(() => {
+                    loading.value = false
+                })
+        })
+    }
     return {
         _,
         collection,
@@ -183,6 +211,7 @@ export const useCloud = () => {
         count,
         fetchOne,
         update,
-        remove
+        remove,
+        create
     }
 }

@@ -1,6 +1,8 @@
 <template>
     <div class="overflow-hidden flex-1 flex flex-col">
         <div class="p-4">
+            <el-button type="primary" @click="createVisible = true">Create</el-button>
+            <el-divider direction="vertical" />
             <el-button :disabled="currentRowIndex === -1" @click="detailVisible = true">Detail</el-button>
             <el-button :disabled="currentRowIndex === -1" @click="editVisible = true">Edit</el-button>
             <el-button :disabled="currentRowIndex === -1" @click="handlerDelete">Delete</el-button>
@@ -28,6 +30,7 @@
         </div>
         <ManagerDetail :data="list[currentRowIndex]" v-model:visible="detailVisible"></ManagerDetail>
         <ManagerEdit :id="list[currentRowIndex]?._id" v-model:visible="editVisible" @fetch="handlerFetch"></ManagerEdit>
+        <ManagerCreate v-model:visible="createVisible" :fields="columns" @fetch="handlerFetch"></ManagerCreate>
     </div>
 </template>
 <script setup>
@@ -41,6 +44,7 @@ const pageSize = ref(20) // 每页数量
 const currentRowIndex = ref(-1) // 当前行索引
 const detailVisible = ref(false)
 const editVisible = ref(false)
+const createVisible = ref(false)
 
 // 查询条件
 const query = computed(() => {
@@ -65,6 +69,7 @@ const handlerFetch = () => {
             return total
         }, [])
         list.value = res.data
+        console.log('columns', columns)
     })
 }
 

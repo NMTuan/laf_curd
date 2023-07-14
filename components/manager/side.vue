@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-12 19:01:15
- * @LastEditTime: 2023-07-13 07:17:42
+ * @LastEditTime: 2023-07-14 17:17:27
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\manager\side.vue
@@ -10,7 +10,7 @@
 <template>
     <div class="">
         <el-tree ref="tree" class="tree" :props="defaultProps" @node-click="handleNodeClick" lazy :load="handlerLoad"
-            :indent="24" node-key="key" highlight-current :default-expanded-keys="defaultExpandedKeys">
+            :indent="0" node-key="key" highlight-current :default-expanded-keys="defaultExpandedKeys">
             <template #default="{ node, data }">
                 <div v-if="node.level === 1" class="flex-1 h-full flex items-center justify-between text-base">
                     <div class="flex items-center">
@@ -101,7 +101,7 @@ watch(() => route.params.key, (val) => {
 </script>
 <style scoped lang="scss">
 .tree {
-    @apply bg-gray-50;
+    @apply bg-cool-gray-100;
 
     :deep(.tree-item) {
         .el-tree-node__content {

@@ -2,21 +2,21 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-12 20:27:09
- * @LastEditTime: 2023-07-14 10:43:58
+ * @LastEditTime: 2023-07-14 17:10:52
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\manager\tab.vue
 -->
 <template>
     <div class="tabs w-full overflow-hidden">
-        <el-tabs v-model="activeName" type="border-card" closable @tab-click="handleClick">
+        <el-tabs v-model="activeName" type="card" closable @tab-click="handleClick">
             <el-tab-pane :label="item" :name="item" v-for="item in tabStore.list">
                 <template #label>
                     <div>
-                        <div class="text-xs text-gray-400 inline-block">
+                        <div class="appid">
                             {{ appName(item.split('/')[0]) }}
                         </div>
-                        <div class="text-sm">{{ item.split('/')[1] }}</div>
+                        <div class="collection">{{ item.split('/')[1] }}</div>
                     </div>
                 </template>
             </el-tab-pane>
@@ -40,66 +40,76 @@ watchEffect(() => {
 </script>
 <style scoped lang="scss">
 .tabs {
-    @apply border-none;
-    @apply -mb-1px;
+    //     @apply border-none;
+    //     @apply -mb-1px;
 
     :deep() {
-        .el-tabs--border-card {
-            @apply border-b-0;
-        }
 
+        // tab 标签部分的区域
         .el-tabs__header {
-            @apply bg-gray-100;
-            // @apply m-0;
-            // @apply border-0 border-b border-solid border-gray-200;
-            // @apply h-auto;
+            @apply m-0;
+            @apply border-none;
+            @apply h-auto;
+
         }
 
+        .el-tabs__nav {
+            @apply border-none;
+        }
 
-        // .el-tabs__item.is-closable:hover {
-        //     // @apply important-px-5;
-        // }
-
+        // 标签项
         &.el-tabs__item {
-            @apply py-5;
-            // @apply bg-gray-100;
-            // @apply border-t-0 border-solid;
-            // @apply border-b border-gray-200;
-            // @apply border-x border-x-transparent;
-            // @apply text-gray-400;
+            @apply bg-teal-600/50;
+            @apply border-teal-500;
+            @apply text-white;
+            @apply pt-2 pb-1;
+            @apply h-auto;
+            --at-apply: hover:(bg-teal-700/50);
+            @apply transition-none;
 
-            // @apply important-border-1 border-solid border-red-400;
             &:hover {
                 @apply important-px-5;
             }
 
+            .appid {
+                @apply text-xs;
+                @apply opacity-50;
+                @apply mb-0.5;
+            }
+
             &.is-active {
-                // @apply bg-white;
-                // @apply shadow-xl;
-                // @apply border-x-gray-200;
-                // @apply text-teal-500;
+                @apply bg-gray-100;
+                @apply border-none;
+                @apply text-teal-600;
             }
         }
 
+        // 关闭按钮
         .el-icon.is-icon-close {
             @apply absolute top-1 right-1;
-        }
-
-        .el-tabs__nav-prev,
-        .el-tabs__nav-next {
-            @apply bg-gray-100;
-            @apply shadow-xl;
 
             &:hover {
-                @apply text-teal-500;
+                @apply bg-teal-700/50;
             }
         }
 
+        // 向前、向后的箭头
+        .el-tabs__nav-prev,
+        .el-tabs__nav-next {
+            @apply bg-teal-700/50;
+            @apply text-white text-base;
+            @apply h-full;
+            @apply flex items-center justify-center;
+
+            &:hover {
+                @apply bg-teal-600/50;
+            }
+        }
+
+        // 用不到tab的内容区域，隐掉
         .el-tabs__content {
             @apply hidden;
         }
-
-
     }
 }
 </style>

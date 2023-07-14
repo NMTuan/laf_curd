@@ -1,5 +1,5 @@
 <template>
-    <div class="overflow-hidden flex-1 flex flex-col" v-loading="loading">
+    <div class="overflow-hidden flex-1 flex flex-col bg-gray-100" v-loading="loading">
         <div class="p-4 flex items-center justify-between">
             <el-button type="primary" @click="createVisible = true">Create</el-button>
             <el-button-group class="mx-3">
@@ -37,9 +37,9 @@
             </el-auto-resizer>
         </div>
         <!-- 分页 -->
-        <div class="px-4 pt-3 pb-4">
-            <el-pagination v-model:current-page="page" background layout="prev, pager, next, jumper, ->, total, sizes"
-                :total="total" v-model:page-size="pageSize" />
+        <div class="p-4">
+            <el-pagination class="pager" v-model:current-page="page" background
+                layout="prev, pager, next, jumper, ->, total, sizes" :total="total" v-model:page-size="pageSize" />
         </div>
 
         <ManagerDetail :data="list[currentRowIndex]" v-model:visible="detailVisible"></ManagerDetail>
@@ -194,16 +194,25 @@ handlerCount()
 </script>
 <style lang="scss" scoped>
 .table {
-
     :deep() {
 
         .el-table-v2__header,
         .el-table-v2__header-cell {
-            @apply bg-gray-100;
+            @apply bg-white;
         }
 
         .el-table-v2__row-cell {
             @apply px-0;
+        }
+    }
+}
+
+.pager {
+    :deep() {
+
+        button,
+        li:not(.is-active) {
+            @apply important-bg-white;
         }
     }
 }

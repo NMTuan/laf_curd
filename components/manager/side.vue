@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-12 19:01:15
- * @LastEditTime: 2023-07-14 17:17:27
+ * @LastEditTime: 2023-07-14 17:47:55
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\manager\side.vue
@@ -21,12 +21,13 @@
                         <i class="block i-ri-refresh-line"></i>
                     </div>
                 </div>
-                <div v-if="node.level === 2" class="flex-1 h-full flex items-stretch justify-between text-sm">
-                    <div class="flex items-center">
-                        <i class="block i-ri-file-list-line mr-2"></i>
-                        {{ data.name }}
+                <div v-if="node.level === 2"
+                    class="flex-1 h-full flex items-center justify-between text-sm overflow-hidden">
+                    <div class="flex-1 overflow-hidden flex items-center">
+                        <i class="flex-shrink-0 block i-ri-file-list-line mr-2"></i>
+                        <div class="flex-1 truncate">{{ data.name }}</div>
                     </div>
-                    <div @click.stop="handlerClickX">x</div>
+                    <div class="flex-shrink-0 ml-2 font-normal" @click.stop="handlerClickX">x</div>
                 </div>
             </template>
         </el-tree>
@@ -68,7 +69,7 @@ const handlerLoad = (node, resolve) => {
                     // 高亮当前collection
                     setTimeout(() => {
                         tree.value.setCurrentKey(route.params.key[1])
-                    }, 150)
+                    }, 200)
                 }
             })
     } else if (node.level === 1) {
@@ -102,15 +103,24 @@ watch(() => route.params.key, (val) => {
 <style scoped lang="scss">
 .tree {
     @apply bg-cool-gray-100;
+    // @apply ml-4;
 
     :deep(.tree-item) {
         .el-tree-node__content {
             @apply py-3;
+
+            &:hover {
+                @apply bg-transparent;
+                @apply text-teal-500;
+            }
         }
+
+
 
         &.is-current {
             >.el-tree-node__content {
-                @apply bg-white;
+                @apply text-teal-500 font-bold;
+                @apply bg-transparent;
             }
         }
 
@@ -118,6 +128,8 @@ watch(() => route.params.key, (val) => {
 
             .el-tree-node__content {
                 @apply py-1;
+
+                // @apply border-b border-b-solid border-b-gray-200;
             }
         }
     }

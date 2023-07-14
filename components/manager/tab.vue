@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-12 20:27:09
- * @LastEditTime: 2023-07-14 17:10:52
+ * @LastEditTime: 2023-07-14 17:50:08
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\manager\tab.vue
@@ -42,6 +42,7 @@ watchEffect(() => {
 .tabs {
     //     @apply border-none;
     //     @apply -mb-1px;
+    // @apply text-sm;
 
     :deep() {
 

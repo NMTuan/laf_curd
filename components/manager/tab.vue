@@ -2,14 +2,14 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-12 20:27:09
- * @LastEditTime: 2023-07-13 07:40:55
+ * @LastEditTime: 2023-07-14 10:43:58
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\manager\tab.vue
 -->
 <template>
     <div class="tabs w-full overflow-hidden">
-        <el-tabs v-model="activeName" type="border-card" closable addable @tab-click="handleClick">
+        <el-tabs v-model="activeName" type="border-card" closable @tab-click="handleClick">
             <el-tab-pane :label="item" :name="item" v-for="item in tabStore.list">
                 <template #label>
                     <div>

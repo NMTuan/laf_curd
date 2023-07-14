@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-13 17:22:21
- * @LastEditTime: 2023-07-13 21:02:53
+ * @LastEditTime: 2023-07-14 14:42:22
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\manager\edit.vue
@@ -59,14 +59,6 @@ const handlerSubmit = () => {
 }
 </script>
 <style lang="scss" scoped>
-.descriptions {
-    :deep() {
-        .el-descriptions__label {
-            @apply font-bold;
-        }
-    }
-}
-
 :deep() {
     .el-textarea__inner {
         @apply h-full;

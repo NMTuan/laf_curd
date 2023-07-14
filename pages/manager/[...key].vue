@@ -28,7 +28,7 @@
                         :width="width" :height="height">
                         <template #cell="{ column, columns, columnIndex, depth, style, rowData, rowIndex }">
                             <div class="flex items-center flex-1 h-full text-sm overflow-hidden px-2"
-                                @click="handlerCellClick({ rowIndex })">
+                                @click="handlerCellClick({ rowIndex })" @dblclick="handlerCellDblclick()">
                                 <div class="truncate">{{ rowData[column.title] }}</div>
                             </div>
                         </template>
@@ -111,6 +111,15 @@ const handlerCount = () => {
 // 单元格的点击事件
 const handlerCellClick = ({ rowIndex }) => {
     currentRowIndex.value = rowIndex
+}
+
+// 单元格的双击事件 
+const handlerCellDblclick = () => {
+    // 如果未选择内容，则打开详情
+    const selected = window.getSelection().toString()
+    if (selected.trim() === '') {
+        detailVisible.value = true
+    }
 }
 
 // 处理row的样式

@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-12 19:01:15
- * @LastEditTime: 2023-07-15 09:22:49
+ * @LastEditTime: 2023-07-15 09:38:15
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\manager\side.vue
@@ -14,10 +14,10 @@
             <template #default="{ node, data }">
                 <div v-if="node.level === 1" class="flex-1 h-full flex items-center justify-between text-base">
                     <div class="flex items-center">
-                        <i class="block i-ri-apps-line mr-2"></i>
+                        <i class="block mr-2" :class="data.icon ? data.icon : 'i-ri-apps-line'"></i>
                         {{ data.name }}
                     </div>
-                    <div>
+                    <div v-if="data.appid">
                         <i class="block i-ri-refresh-line"></i>
                     </div>
                 </div>
@@ -48,7 +48,9 @@ const defaultExpandedKeys = ref([])
 // 点击节点的事件
 const handleNodeClick = (data, node, tree, e) => {
     // console.log(data, node, tree, e)
-    if (node.level === 2) {
+    if (node.level === 1 && data.to) {
+        navigateTo(data.to)
+    }else    if (node.level === 2) {
         navigateTo(`/${node.parent.data.appid}/${data.name}`)
     }
 }
@@ -62,7 +64,16 @@ const handlerLoad = (node, resolve) => {
                 res.data.map((item) => {
                     item.key = item.appid
                 })
-                resolve(res.data)
+                resolve([
+                    {
+                        key: 'query',
+                        name: 'query',
+                        leaf: true,
+                        icon: 'i-ri-search-line',
+                        to: '/query'
+                    },
+                    ...res.data
+                ])
                 if (route.name === 'index-key') {
                     // 展开当前app
                     defaultExpandedKeys.value = [route.params.key[0]]

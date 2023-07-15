@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-13 09:34:02
- * @LastEditTime: 2023-07-14 17:47:14
+ * @LastEditTime: 2023-07-15 10:12:53
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\manager\header.vue
@@ -19,7 +19,6 @@
     </div>
 </template>
 <script setup>
-const tabStore = useTabStore()
 const urls = [
     // { label: 'Laf', url: 'https://laf.run/' },
     { label: 'GitHub', url: 'https://github.com/NMTuan/laf_curd' }

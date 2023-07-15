@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-12 20:27:09
- * @LastEditTime: 2023-07-15 08:54:09
+ * @LastEditTime: 2023-07-15 11:18:18
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\manager\tab.vue
@@ -10,14 +10,15 @@
 <template>
     <div class="tabs w-full overflow-hidden">
         <el-tabs v-model="activeName" type="card" closable @tab-click="handleClick">
-            <el-tab-pane :label="item" :name="item" v-for="item in tabStore.list">
+            <el-tab-pane :label="item.name" :name="index" v-for="(item, index) in tabStore.list">
                 <template #label>
-                    <div>
+                    <div class="h-9" v-if="Array.isArray(item.params?.key)">
                         <div class="appid">
-                            {{ appName(item.split('/')[0]) }}
+                            {{ appName(item.params.key[0]) }}
                         </div>
-                        <div class="collection">{{ item.split('/')[1] }}</div>
+                        <div class="collection">{{ item.params.key[1] }}</div>
                     </div>
+                    <div class="h-9 flex items-center justify-center" v-else>{{ item.name }}</div>
                 </template>
             </el-tab-pane>
         </el-tabs>
@@ -29,21 +30,18 @@ const appStore = useAppStore()
 const tabStore = useTabStore()
 const activeName = ref('')
 const handleClick = (pane) => {
-    navigateTo(`/${pane.paneName}`)
+    const tab = tabStore.list[pane.index]
+    navigateTo(tab)
 }
 const appName = (appid) => {
     return appStore.list.find(item => item.appid === appid)?.name || appid
 }
 watchEffect(() => {
-    activeName.value = route.params.key?.join('/') || ''
+    activeName.value = tabStore.list.findIndex(item => item.name === route.name && JSON.stringify(item.params) === JSON.stringify(route.params))
 })
 </script>
 <style scoped lang="scss">
 .tabs {
-    //     @apply border-none;
-    //     @apply -mb-1px;
-    // @apply text-sm;
-
     :deep() {
 
         // tab 标签部分的区域
@@ -59,7 +57,7 @@ watchEffect(() => {
         }
 
         // 标签项
-        &.el-tabs__item {
+        .el-tabs__item {
             @apply bg-teal-600/50;
             @apply border-teal-500;
             @apply text-white;

@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-06-29 21:14:49
- * @LastEditTime: 2023-07-13 14:59:26
+ * @LastEditTime: 2023-07-15 10:14:51
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\middleware\auth.global.ts
@@ -23,7 +23,16 @@ export default defineNuxtRouteMiddleware((to, from) => {
     }
 
     // tabs
-    if (to.name === 'index-key') {
-        tabStore.append(to.params.key.join('/'))
-    }
+    // console.log('to', to.name, to.params.key, /^index.*$/.test(to.name))
+    // if (to.name === 'index-key') {
+    //     tabStore.append(to.params.key.join('/'))
+    // } else if (/^index.*$/.test(to.name)) {
+    //     tabStore.append(to.params.name)
+    // }
+    // console.log(tabStore.list)
+
+    tabStore.append({
+        name: to.name,
+        params: to.params
+    })
 })

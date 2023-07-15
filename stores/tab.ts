@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-12 20:08:25
- * @LastEditTime: 2023-07-15 10:11:38
+ * @LastEditTime: 2023-07-15 19:05:24
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\stores\tab.ts
@@ -15,7 +15,6 @@ interface Route {
 export const useTabStore = defineStore('useTabStore', () => {
     const list: Ref<Route[]> = ref([])
     const append = (route: Route) => {
-        console.log('route', route)
         const exits = list.value.find(
             (item) =>
                 item.name === route.name &&
@@ -29,7 +28,6 @@ export const useTabStore = defineStore('useTabStore', () => {
         // if (route && index === -1) {
         //     list.value.push(route)
         // }
-        console.log('tab', list.value)
     }
 
     return {

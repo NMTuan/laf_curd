@@ -2,18 +2,20 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-13 10:34:44
- * @LastEditTime: 2023-07-15 09:23:54
+ * @LastEditTime: 2023-07-15 18:22:39
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\composables\cloud.js
  */
 import { Cloud } from 'laf-client-sdk'
 
-export const useCloud = () => {
+export const useCloud = (payload) => {
     const route = useRoute()
     const configStore = useConfigStore()
     const useStore = useUserStore()
-    const [appid, collectionName] = route.params.key
+    // const [appid, collectionName] = route.params.key
+    const appid = payload?.appid || route.params.key[0]
+    const collectionName = payload?.collectionName || route.params.key[1]
     const cloud = new Cloud({
         baseUrl: `${configStore.apiUrl}`,
         dbProxyUrl: `/v1/apps/${appid}/databases/proxy`,
@@ -51,6 +53,7 @@ export const useCloud = () => {
                 })
         })
     }
+
     // 根据query条件获取数据总条数
     const count = ({ query }, loading) => {
         return new Promise((resolve, reject) => {
@@ -204,6 +207,39 @@ export const useCloud = () => {
                 })
         })
     }
+
+    // 执行语句
+    const run = (statement, loading) => {
+        return new Promise((resolve, reject) => {
+            if (loading) {
+                loading.value = true
+            }
+            try {
+                eval(`collection.${statement}`)
+                    .then((res) => {
+                        resolve(res)
+                    })
+                    .catch((error) => {
+                        reject(error)
+                    })
+                    .finally(() => {
+                        if (loading) {
+                            loading.value = false
+                        }
+                    })
+            } catch (error) {
+                ElMessage({
+                    message: error.message,
+                    type: 'error'
+                })
+                if (loading) {
+                    loading.value = false
+                }
+                reject(error)
+            }
+        })
+    }
+
     return {
         _,
         collection,
@@ -212,6 +248,7 @@ export const useCloud = () => {
         fetchOne,
         update,
         remove,
-        create
+        create,
+        run
     }
 }

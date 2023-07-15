@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-13 17:22:21
- * @LastEditTime: 2023-07-14 14:42:22
+ * @LastEditTime: 2023-07-15 16:20:05
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\manager\edit.vue
@@ -16,7 +16,6 @@
     </el-drawer>
 </template>
 <script setup>
-const { fetchOne, update } = useCloud()
 const props = defineProps({
     visible: {
         type: Boolean,
@@ -25,8 +24,19 @@ const props = defineProps({
     id: {
         type: String,
         default: ''
+    },
+    appid: {
+        type: String,
+        default: ''
+    },
+    collectionName: {
+        type: String,
+        default: ''
     }
 })
+
+let fetchOne, update;
+
 const emits = defineEmits(['update:visible', 'fetch'])
 const loading = ref(false)
 const formData = ref('')
@@ -34,6 +44,13 @@ const handlerClose = () => {
     emits('update:visible', false)
 }
 const handlerOpen = () => {
+    const cloud = useCloud({
+        appid: props.appid,
+        collectionName: props.collectionName
+    })
+    fetchOne = cloud.fetchOne
+    update = cloud.update
+
     fetchOne({
         query: {
             _id: props.id

@@ -34,7 +34,6 @@ const handleClick = (pane) => {
     navigateTo(tab)
 }
 const handleRemove = (index) => {
-    console.log('remove', index, activeName.value)
     tabStore.remove(index, index === activeName.value)
 }
 const appName = (appid) => {

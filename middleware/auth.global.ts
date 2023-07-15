@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-06-29 21:14:49
- * @LastEditTime: 2023-07-15 10:14:51
+ * @LastEditTime: 2023-07-15 20:46:57
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\middleware\auth.global.ts
@@ -31,8 +31,10 @@ export default defineNuxtRouteMiddleware((to, from) => {
     // }
     // console.log(tabStore.list)
 
-    tabStore.append({
-        name: to.name,
-        params: to.params
-    })
+    if (!userStore.whiteList.includes(to.path)) {
+        tabStore.append({
+            name: to.name,
+            params: to.params
+        })
+    }
 })

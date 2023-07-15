@@ -2,14 +2,14 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-12 20:27:09
- * @LastEditTime: 2023-07-15 19:23:07
+ * @LastEditTime: 2023-07-15 19:31:27
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\manager\tab.vue
 -->
 <template>
     <div class="tabs w-full overflow-hidden">
-        <el-tabs v-model="activeName" type="card" closable @tab-click="handleClick">
+        <el-tabs v-model="activeName" type="card" closable @tab-click="handleClick" @tab-remove="handleRemove">
             <el-tab-pane :label="item.name" :name="index" v-for="(item, index) in tabStore.list">
                 <template #label>
                     <div class="h-9" v-if="Array.isArray(item.params?.key)">
@@ -32,6 +32,10 @@ const activeName = ref('')
 const handleClick = (pane) => {
     const tab = tabStore.list[pane.index]
     navigateTo(tab)
+}
+const handleRemove = (index) => {
+    console.log('remove', index, activeName.value)
+    tabStore.remove(index, index === activeName.value)
 }
 const appName = (appid) => {
     return appStore.list.find(item => item.appid === appid)?.name || appid

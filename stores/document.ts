@@ -1,20 +1,18 @@
 /*
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
- * @Date: 2023-07-01 22:51:38
- * @LastEditTime: 2023-07-02 14:17:09
+ * @Date: 2023-07-13 10:03:50
+ * @LastEditTime: 2023-07-13 10:04:15
  * @LastEditors: NMTuan
  * @Description:
- * @FilePath: \project\laf_curd\stores\collection.ts
+ * @FilePath: \laf_curd\stores\document.ts
  */
 import { defineStore } from 'pinia'
-
-export const useCollectionStore = defineStore('useCollectionStore', () => {
+export const useDocumentStore = defineStore('useDocumentStore', () => {
     // 列表
-    const list = ref([])
 
     // 获取列表
-    const fetch = (appid) => {
+    const fetch = (appid, collection) => {
         const configStore = useConfigStore()
         return new Promise((resolve, reject) => {
             request({
@@ -31,7 +29,6 @@ export const useCollectionStore = defineStore('useCollectionStore', () => {
     }
 
     return {
-        list,
         fetch
     }
 })

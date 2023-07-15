@@ -2,15 +2,13 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-06-30 19:16:42
- * @LastEditTime: 2023-07-02 17:41:41
+ * @LastEditTime: 2023-07-15 20:58:55
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\app.vue
 -->
 <template>
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+  <NuxtPage />
 </template>
 <script setup>
 import { useConfigStore } from '@/stores/config'
@@ -27,8 +25,9 @@ watch(() => configStore.appid, (val) => {
 </script>
 <style>
 html,
-body {
+body,
+#__nuxt {
   @apply m-0;
-  @apply bg-teal-50 text-gray-600;
+  @apply bg-gray-100 text-gray-600;
 }
 </style>

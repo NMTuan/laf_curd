@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-01 17:16:50
- * @LastEditTime: 2023-07-12 07:05:45
+ * @LastEditTime: 2023-07-15 15:38:16
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\stores\query.ts
@@ -14,6 +14,8 @@ interface History {
 }
 
 export const useQueryStore = defineStore('useQueryStore', () => {
+    // 当前实例
+    const appid = ref('')
     // 当前集合
     const collection = ref({})
     // 查询语句
@@ -143,6 +145,7 @@ export const useQueryStore = defineStore('useQueryStore', () => {
     })
 
     return {
+        appid,
         collection,
         statement,
         query,

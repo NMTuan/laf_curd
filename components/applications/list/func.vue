@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-01 13:22:04
- * @LastEditTime: 2023-07-02 17:22:32
+ * @LastEditTime: 2023-07-15 07:19:58
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\applications\list\func.vue
@@ -11,7 +11,7 @@
     <div class="text-sm">
         <span class="button button--disabled">云函数</span>
         <NuxtLink class="button" :to="{
-            name: 'app-appid-database', params: {
+            name: 'old-app-appid-database', params: {
                 appid
             }
         }">数据库</NuxtLink>

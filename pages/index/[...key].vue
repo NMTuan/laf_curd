@@ -11,7 +11,8 @@
             <el-input class="flex-1" v-model.trim="q" clearable @keyup.enter="handlerSearch"
                 placeholder="document ID | Mongo where statement | Laf where statement">
                 <template #prepend>
-                    <el-button @click="handlerSearch">Search</el-button>
+                    <el-button @click="handlerSearch">Search <span class="text-xs opacity-75 ml-2">( Enter
+                            )</span></el-button>
                 </template>
                 <template #append>
                     <el-button @click="historyVisible = true">

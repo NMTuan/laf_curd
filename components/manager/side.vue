@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-12 19:01:15
- * @LastEditTime: 2023-07-15 09:38:15
+ * @LastEditTime: 2023-07-15 19:21:31
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\manager\side.vue
@@ -17,9 +17,9 @@
                         <i class="block mr-2" :class="data.icon ? data.icon : 'i-ri-apps-line'"></i>
                         {{ data.name }}
                     </div>
-                    <div v-if="data.appid">
+                    <!-- <div v-if="data.appid">
                         <i class="block i-ri-refresh-line"></i>
-                    </div>
+                    </div> -->
                 </div>
                 <div v-if="node.level === 2"
                     class="flex-1 h-full flex items-center justify-between text-sm overflow-hidden">
@@ -27,7 +27,7 @@
                         <i class="flex-shrink-0 block i-ri-file-list-line mr-2"></i>
                         <div class="flex-1 truncate">{{ data.name }}</div>
                     </div>
-                    <div class="flex-shrink-0 ml-2 font-normal" @click.stop="handlerClickX">x</div>
+                    <!-- <div class="flex-shrink-0 ml-2 font-normal" @click.stop="handlerClickX">x</div> -->
                 </div>
             </template>
         </el-tree>
@@ -50,7 +50,7 @@ const handleNodeClick = (data, node, tree, e) => {
     // console.log(data, node, tree, e)
     if (node.level === 1 && data.to) {
         navigateTo(data.to)
-    }else    if (node.level === 2) {
+    } else if (node.level === 2) {
         navigateTo(`/${node.parent.data.appid}/${data.name}`)
     }
 }
@@ -66,7 +66,7 @@ const handlerLoad = (node, resolve) => {
                 })
                 resolve([
                     {
-                        key: 'query',
+                        key: 'index-query',
                         name: 'query',
                         leaf: true,
                         icon: 'i-ri-search-line',
@@ -104,13 +104,18 @@ const handlerClickX = () => {
     console.log('xxx')
 }
 
-watch(() => route.params.key, (val) => {
-    // 展开当前app
-    if (val) {
-        defaultExpandedKeys.value = [val[0]]
+watchEffect(() => {
+    if (!tree.value) {
+        return
     }
-    // 高亮当前collection
-    tree.value.setCurrentKey(val?.[1] || null)
+    if (route.params.key) {
+        // 展开当前app
+        defaultExpandedKeys.value = [route.params.key[0]]
+        // 高亮当前collection
+        tree.value.setCurrentKey(route.params.key?.[1] || null)
+    } else {
+        tree.value.setCurrentKey(route.name === 'index' ? null : route.name || null)
+    }
 })
 
 </script>

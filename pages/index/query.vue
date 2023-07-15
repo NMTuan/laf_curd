@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-15 09:39:54
- * @LastEditTime: 2023-07-15 18:56:02
+ * @LastEditTime: 2023-07-15 19:12:13
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\pages\index\query.vue
@@ -24,7 +24,7 @@
             <el-button-group class="mr-2 flex-shrink-0">
                 <el-button type="primary" @click="handlerRun">
                     <div class="i-ri-play-fill mr-1"></div>
-                    Run
+                    Run <span class="text-xs opacity-75 ml-2">( Ctrl+Enter | Alt+Enter )</span>
                 </el-button>
                 <el-button title="History" @click="historyVisible = true">
                     <div class="i-ri-history-line"></div>

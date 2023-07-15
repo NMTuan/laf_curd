@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-12 20:27:09
- * @LastEditTime: 2023-07-15 11:18:18
+ * @LastEditTime: 2023-07-15 19:23:07
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\manager\tab.vue
@@ -18,7 +18,7 @@
                         </div>
                         <div class="collection">{{ item.params.key[1] }}</div>
                     </div>
-                    <div class="h-9 flex items-center justify-center" v-else>{{ item.name }}</div>
+                    <div class="h-9 flex items-center justify-center" v-else>{{ item.name.replace('index-', '') }}</div>
                 </template>
             </el-tab-pane>
         </el-tabs>

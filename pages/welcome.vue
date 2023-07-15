@@ -2,45 +2,44 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-06-30 20:33:22
- * @LastEditTime: 2023-07-03 07:04:37
+ * @LastEditTime: 2023-07-15 21:15:56
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\pages\welcome.vue
 -->
 <template>
-    <NuxtLayout>
-        <LayoutPanel title="welcome !">
-            <LayoutLoading :loading="loading"></LayoutLoading>
-            <div v-if="error">error</div>
-
-            <p>请先配置以下信息：</p>
-
-            <p>api url: <input type="text" v-model="configStore.apiUrl" /></p>
-            <p>pat: <input type="text" v-model="configStore.pat" /></p>
-
-            <!-- <p>requestUrl：{{ requestUrl }}</p> -->
-
-            <!-- <p>pat：{{ pat }}</p> -->
-
-            <p><button @click="handlerLogin">login</button></p>
-        </LayoutPanel>
+    <NuxtLayout name="manager">
+        <div class="welcome flex flex-col items-center justify-center flex-1 overflow-hidden">
+            <div class="bg-white border border-solid border-gray-200 rounded p-10 shadow">
+                <h2 class="text-center mb-16">Laf x DB</h2>
+                <div class="mb-6 w-100">
+                    <el-input size="large" placeholder="API URL" v-model="configStore.apiUrl"></el-input>
+                </div>
+                <div class="mb-10 w-100">
+                    <el-input size="large" placeholder="PAT" v-model="configStore.pat"></el-input>
+                </div>
+                <div class="mb-6 w-100">
+                    <el-button size="large" type="primary" class="w-full" @click="handlerLogin" :loading="loading">
+                        Sign In
+                    </el-button>
+                </div>
+            </div>
+            <div class="text-xs mt-4">
+                <a class="text-gray-400" href="https://github.com/NMTuan/laf_curd" target="_blank">Github</a>
+            </div>
+        </div>
     </NuxtLayout>
 </template>
 <script setup>
 import { useConfigStore } from '@/stores/config'
-// const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const configStore = useConfigStore()
-// const { requestUrl, pat } = runtimeConfig.public
-const error = ref(false)
 const loading = ref(false)
 
 const handlerLogin = async () => {
     if (!configStore.apiUrl || !configStore.pat) {
-        error.value = true
         return
     }
-    error.value = false
     loading.value = true
     request({
         path: '/v1/auth/pat2token',
@@ -58,10 +57,15 @@ const handlerLogin = async () => {
             }
         })
         .catch((err) => {
-            error.value = true
+            // error.value = true
         })
         .finally(() => {
             loading.value = false
         })
 }
 </script>
+<style scoped lang="scss">
+.welcome {
+    background-image: url('/texture.png');
+}
+</style>

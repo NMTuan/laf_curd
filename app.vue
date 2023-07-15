@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-06-30 19:16:42
- * @LastEditTime: 2023-07-15 07:21:10
+ * @LastEditTime: 2023-07-15 20:58:55
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\app.vue
@@ -25,8 +25,9 @@ watch(() => configStore.appid, (val) => {
 </script>
 <style>
 html,
-body {
+body,
+#__nuxt {
   @apply m-0;
-  @apply bg-white text-gray-600;
+  @apply bg-gray-100 text-gray-600;
 }
 </style>

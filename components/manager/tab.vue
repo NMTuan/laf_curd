@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-12 20:27:09
- * @LastEditTime: 2023-07-14 17:50:08
+ * @LastEditTime: 2023-07-15 08:54:09
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\manager\tab.vue
@@ -29,7 +29,7 @@ const appStore = useAppStore()
 const tabStore = useTabStore()
 const activeName = ref('')
 const handleClick = (pane) => {
-    navigateTo(`/manager/${pane.paneName}`)
+    navigateTo(`/${pane.paneName}`)
 }
 const appName = (appid) => {
     return appStore.list.find(item => item.appid === appid)?.name || appid

@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-12 19:01:15
- * @LastEditTime: 2023-07-14 17:47:55
+ * @LastEditTime: 2023-07-15 09:22:49
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\manager\side.vue
@@ -49,7 +49,7 @@ const defaultExpandedKeys = ref([])
 const handleNodeClick = (data, node, tree, e) => {
     // console.log(data, node, tree, e)
     if (node.level === 2) {
-        navigateTo(`/manager/${node.parent.data.appid}/${data.name}`)
+        navigateTo(`/${node.parent.data.appid}/${data.name}`)
     }
 }
 
@@ -63,13 +63,14 @@ const handlerLoad = (node, resolve) => {
                     item.key = item.appid
                 })
                 resolve(res.data)
-                if (route.name === 'manager-key') {
+                if (route.name === 'index-key') {
                     // 展开当前app
                     defaultExpandedKeys.value = [route.params.key[0]]
                     // 高亮当前collection
+                    // TODO 这里不可靠
                     setTimeout(() => {
-                        tree.value.setCurrentKey(route.params.key[1])
-                    }, 200)
+                        tree.value.setCurrentKey(route.params?.key[1])
+                    }, 1000)
                 }
             })
     } else if (node.level === 1) {
@@ -94,9 +95,11 @@ const handlerClickX = () => {
 
 watch(() => route.params.key, (val) => {
     // 展开当前app
-    defaultExpandedKeys.value = [val[0]]
+    if (val) {
+        defaultExpandedKeys.value = [val[0]]
+    }
     // 高亮当前collection
-    tree.value.setCurrentKey(val[1])
+    tree.value.setCurrentKey(val?.[1] || null)
 })
 
 </script>

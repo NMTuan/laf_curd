@@ -23,7 +23,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
     }
 
     // tabs
-    if (to.name === 'manager-key') {
+    if (to.name === 'index-key') {
         tabStore.append(to.params.key.join('/'))
     }
 })

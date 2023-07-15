@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-06-30 19:16:42
- * @LastEditTime: 2023-07-12 06:55:40
+ * @LastEditTime: 2023-07-13 14:42:57
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\nuxt.config.ts
@@ -19,9 +19,13 @@ export default defineNuxtConfig({
             ]
         }
     },
-    css: ['@unocss/reset/normalize.css'],
-    modules: ['@unocss/nuxt', '@pinia/nuxt'],
-    devtools: { enabled: true },
+    css: [
+        '@unocss/reset/normalize.css',
+        '@/assets/scss/common.scss',
+        'simplebar-vue/dist/simplebar.min.css'
+    ],
+    modules: ['@unocss/nuxt', '@pinia/nuxt', '@element-plus/nuxt'],
+    devtools: { enabled: false },
     runtimeConfig: {
         public: {
             requestUrl: 'https://api.laf.run',
@@ -33,5 +37,21 @@ export default defineNuxtConfig({
     },
     imports: {
         dirs: ['stores']
-    }
+    },
+    vite: {
+        css: {
+            preprocessorOptions: {
+                scss: {
+                    additionalData: `@use "@/assets/scss/element/index.scss" as element;`
+                }
+            }
+        }
+    },
+    elementPlus: {
+        // icon: 'ElIcon',
+        importStyle: 'scss'
+        // themes: ['dark']
+    },
+    // spaLoadingTemplate: 'public/loading.html'
+    spaLoadingTemplate: false
 })

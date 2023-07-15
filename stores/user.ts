@@ -12,9 +12,12 @@ import { defineStore } from 'pinia'
 export const useUserStore = defineStore('useUserStore', () => {
     const token = useCookie('laf_curd_token')
     const whiteList = ['/welcome'] // 不需要鉴权的url路径
-
+    const clearToken = () => {
+        token.value = ''
+    }
     return {
         token,
-        whiteList
+        whiteList,
+        clearToken
     }
 })

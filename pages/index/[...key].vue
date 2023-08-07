@@ -21,6 +21,7 @@
                 </template>
             </el-input>
         </div>
+        <DatabaseFields></DatabaseFields>
         <!-- 表格 -->
         <div class="flex-1 overflow-hidden mx-4 ">
             <el-auto-resizer>

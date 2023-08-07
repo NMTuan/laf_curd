@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-13 10:34:44
- * @LastEditTime: 2023-07-15 18:22:39
+ * @LastEditTime: 2023-08-08 07:37:08
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\composables\cloud.js
@@ -243,6 +243,8 @@ export const useCloud = (payload) => {
     return {
         _,
         collection,
+        collectionName,
+        cloud,
         fetch,
         count,
         fetchOne,

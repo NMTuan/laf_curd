@@ -1,11 +1,14 @@
 <template>
     <div class="overflow-hidden flex-1 flex flex-col bg-gray-100" v-loading="loading">
         <div class="p-4 flex items-center justify-between">
-            <el-button type="primary" @click="createVisible = true">Create</el-button>
-            <el-button-group class="mx-3">
+            <el-button type="primary" @click="createVisible = true" class="mr-2">Create</el-button>
+            <el-button-group class="mr-2">
                 <el-button :disabled="currentRowIndex === -1" @click="detailVisible = true">Detail</el-button>
                 <el-button :disabled="currentRowIndex === -1" @click="editVisible = true">Edit</el-button>
                 <el-button :disabled="currentRowIndex === -1" @click="handlerDelete">Delete</el-button>
+            </el-button-group>
+            <el-button-group class="mr-2">
+                <el-button @click="keysVisible = true">Keys</el-button>
             </el-button-group>
             <!-- 搜索 -->
             <el-input class="flex-1" v-model.trim="q" clearable @keyup.enter="handlerSearch"
@@ -47,6 +50,7 @@
         <ManagerEdit :id="list[currentRowIndex]?._id" v-model:visible="editVisible" @fetch="handlerFetch"></ManagerEdit>
         <ManagerCreate v-model:visible="createVisible" :fields="columns" @fetch="handlerFetch"></ManagerCreate>
         <ManagerHistory v-model:visible="historyVisible" @search="handlerHistorySearch"></ManagerHistory>
+        <ManagerKeys v-model:visible="keysVisible"></ManagerKeys>
     </div>
 </template>
 <script setup>
@@ -65,6 +69,7 @@ const detailVisible = ref(false)
 const editVisible = ref(false)
 const createVisible = ref(false)
 const historyVisible = ref(false)
+const keysVisible = ref(false)
 
 const q = ref('')   // 搜索框的内容
 const where = ref({})   // 由q经过处理后的查询条件

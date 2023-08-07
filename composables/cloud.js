@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-13 10:34:44
- * @LastEditTime: 2023-07-15 18:22:39
+ * @LastEditTime: 2023-07-16 13:44:46
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\composables\cloud.js
@@ -240,6 +240,33 @@ export const useCloud = (payload) => {
         })
     }
 
+    // 获取索引
+    const fetchIndex = (loading) => {
+        return new Promise((resolve, reject) => {
+            if (loading) {
+                loading.value = true
+            }
+            // console.log('cc', cc.mongo.db.collection)
+
+            // cc.mongo.db.collection(collectionName).getIndex()
+            // db.collection(collectionName).getIndexes()
+            // // collection
+            //     // .doc(id)
+            //     // .update(payload)
+            //     .then((res) => {
+            //         resolve(res)
+            //     })
+            //     .catch((error) => {
+            //         reject(error)
+            //     })
+            //     .finally(() => {
+            //         if (loading) {
+            //             loading.value = false
+            //         }
+            //     })
+        })
+    }
+
     return {
         _,
         collection,
@@ -249,6 +276,7 @@ export const useCloud = (payload) => {
         update,
         remove,
         create,
-        run
+        run,
+        fetchIndex
     }
 }

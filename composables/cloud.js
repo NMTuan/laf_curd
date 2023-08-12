@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-13 10:34:44
- * @LastEditTime: 2023-08-12 14:43:13
+ * @LastEditTime: 2023-08-12 16:07:50
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\composables\cloud.js
@@ -259,7 +259,6 @@ export const useCloud = (payload) => {
         })
     }
     const updateFieldConfig = (id, data) => {
-        console.log('updateFieldConfig', id, collectionName, data)
         return new Promise((resolve, reject) => {
             if (!id) {
                 cloud

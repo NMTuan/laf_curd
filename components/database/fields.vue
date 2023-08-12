@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-08-08 07:34:55
- * @LastEditTime: 2023-08-12 15:05:11
+ * @LastEditTime: 2023-08-12 17:22:57
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\database\fields.vue
@@ -16,10 +16,19 @@
         <!-- 弹窗 -->
         <el-dialog v-model="dialogVisible" title="Fields" :close-on-click-modal="false" :close-on-press-escape="false"
             @open="handlerOpen" width="80%">
+
             <el-table :data="fields" class="w-full" :row-class-name="handlerRowClass">
                 <el-table-column :label="col.label" :key="col.key" :width="col.width" v-for="col in columns">
                     <template #default="{ row, column, $index }">
-                        <span v-if="column.rawColumnKey === 'key'">{{ row[column.rawColumnKey] }}</span>
+                        <div v-if="column.rawColumnKey === 'key' && exitsCol(row.key)">{{ row[column.rawColumnKey] }}</div>
+                        <el-popconfirm v-else-if="column.rawColumnKey === 'remove'" confirm-button-text="删除"
+                            confirm-button-type="danger" cancel-button-text="取消" cancel-button-type="default" hide-icon
+                            :title="`确定要删除“${row.title || row.key || '此字段'}”吗？`" width="240"
+                            @confirm="handlerRemove($index)">
+                            <template #reference>
+                                <div class="i-ri-close-line text-lg cursor-pointer" hover="text-red-600"></div>
+                            </template>
+                        </el-popconfirm>
                         <el-input-number v-else-if="column.rawColumnKey === 'width'" size=""
                             v-model="fields[$index][column.rawColumnKey]" :min="150" :step="10" />
                         <el-radio-group v-else-if="column.rawColumnKey === 'align'" size=""
@@ -42,12 +51,14 @@
                 </el-table-column>
             </el-table>
             <template #footer>
-                <span class="dialog-footer">
-                    <el-button @click="dialogVisible = false">取消</el-button>
-                    <el-button :loading="loading" type="primary" @click="handlerSubmit">
-                        提交
-                    </el-button>
-                </span>
+                <el-link type="primary" class="mr-4" @click="addField">
+                    <div class="i-ri-add-line"></div>
+                    新增字段
+                </el-link>
+                <el-button @click="dialogVisible = false">取消</el-button>
+                <el-button :loading="loading" type="primary" @click="handlerSubmit">
+                    提交
+                </el-button>
             </template>
         </el-dialog>
     </div>
@@ -75,6 +86,7 @@ const columns = [
     { key: 'fixed', label: '固定列', width: 210 },    // 固定列
     { key: 'width', label: '列宽', width: 180 },
     { key: 'hidden', label: '显示', width: 80 }, // 隐藏
+    { key: 'remove', label: '', width: 42 },
 ]
 
 // 打开弹窗
@@ -94,5 +106,27 @@ const handlerSubmit = async () => {
     emits('update:columns', JSON.parse(JSON.stringify(fields.value)))
     loading.value = false
     dialogVisible.value = false
+}
+
+// 增加字段
+const addField = () => {
+    fields.value.push({
+        key: '',
+        title: '',
+        width: 200
+    })
+}
+
+// 判断是否为新增字段, 新增字段可以编辑 key
+const exitsCol = (key) => {
+    if (key === '') {
+        return false
+    }
+    return props.columns.find(item => item.key === key) ? true : false
+}
+
+// 移除字段
+const handlerRemove = (index) => {
+    fields.value.splice(index, 1)
 }
 </script>

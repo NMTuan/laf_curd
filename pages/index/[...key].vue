@@ -29,7 +29,7 @@
                     <el-table-v2 class="table" :row-class="handlerRowClass" fixed :columns="columns" :data="list"
                         :width="width" :height="height">
                         <template #cell="{ column, columns, columnIndex, depth, style, rowData, rowIndex }">
-                            <div class="flex items-center flex-1 h-full text-sm overflow-hidden px-2" :style="style"
+                            <div class="flex items-center !flex-1 h-full text-sm overflow-hidden px-2" :style="style"
                                 @click="handlerCellClick({ rowIndex })" @dblclick="handlerCellDblclick()">
                                 <div class="truncate">{{ rowData[column.key] }}</div>
                             </div>
@@ -96,7 +96,7 @@ const handlerFetch = () => {
                 if (exits === -1) {
                     columns.value.push({
                         key,
-                        dataKey: key,
+                        // dataKey: key,
                         title: key,
                         width: 200
                     })
@@ -234,6 +234,8 @@ handlerFields() // 获取字段配置
 
         .el-table-v2__row-cell {
             @apply px-0;
+            @apply flex;
+            @apply overflow-hidden;
         }
     }
 }

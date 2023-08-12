@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-13 10:34:44
- * @LastEditTime: 2023-08-08 07:37:08
+ * @LastEditTime: 2023-08-12 14:43:13
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\composables\cloud.js
@@ -240,6 +240,76 @@ export const useCloud = (payload) => {
         })
     }
 
+    // 获取字段配置
+    const getFieldConfig = () => {
+        return new Promise((resolve, reject) => {
+            cloud
+                .database()
+                .collection('lafDB_fields')
+                .where({
+                    collectionName
+                })
+                .getOne()
+                .then((res) => {
+                    resolve(res)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    }
+    const updateFieldConfig = (id, data) => {
+        console.log('updateFieldConfig', id, collectionName, data)
+        return new Promise((resolve, reject) => {
+            if (!id) {
+                cloud
+                    .database()
+                    .collection('lafDB_fields')
+                    .add({
+                        collectionName,
+                        columns: data
+                    })
+                    .then((res) => {
+                        resolve(res)
+                    })
+                    .catch((err) => {
+                        reject(err)
+                    })
+            } else {
+                cloud
+                    .database()
+                    .collection('lafDB_fields')
+                    .doc(id)
+                    .update({
+                        columns: data
+                    })
+                    .then((res) => {
+                        resolve(res)
+                    })
+                    .catch((err) => {
+                        reject(err)
+                    })
+            }
+        })
+
+        // const id = data._id
+        // delete data._id
+        // return new Promise((resolve, reject) => {
+        //     cloud
+        //         .database()
+        //         .collection('lafDB_fields')
+        //         .doc(id)
+        //         .update(data)
+        //         .then((res) => {
+        //             console.log('x', res)
+        //             resolve(res)
+        //         })
+        //         .catch((error) => {
+        //             reject(error)
+        //         })
+        // })
+    }
+
     return {
         _,
         collection,
@@ -251,6 +321,8 @@ export const useCloud = (payload) => {
         update,
         remove,
         create,
-        run
+        run,
+        getFieldConfig,
+        updateFieldConfig
     }
 }

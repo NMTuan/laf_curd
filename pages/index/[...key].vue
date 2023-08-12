@@ -20,8 +20,8 @@
                     </el-button>
                 </template>
             </el-input>
+            <DatabaseFields class="ml-3" v-model:columns="columns" :id="columnsId"></DatabaseFields>
         </div>
-        <DatabaseFields></DatabaseFields>
         <!-- 表格 -->
         <div class="flex-1 overflow-hidden mx-4 ">
             <el-auto-resizer>
@@ -29,9 +29,9 @@
                     <el-table-v2 class="table" :row-class="handlerRowClass" fixed :columns="columns" :data="list"
                         :width="width" :height="height">
                         <template #cell="{ column, columns, columnIndex, depth, style, rowData, rowIndex }">
-                            <div class="flex items-center flex-1 h-full text-sm overflow-hidden px-2"
+                            <div class="flex items-center flex-1 h-full text-sm overflow-hidden px-2" :style="style"
                                 @click="handlerCellClick({ rowIndex })" @dblclick="handlerCellDblclick()">
-                                <div class="truncate">{{ rowData[column.title] }}</div>
+                                <div class="truncate">{{ rowData[column.key] }}</div>
                             </div>
                         </template>
                     </el-table-v2>
@@ -52,8 +52,11 @@
 </template>
 <script setup>
 import parse from 'ejson-shell-parser';
-const { _, fetch, count, remove } = useCloud()
-const columns = ref([]) // 表格列配置项
+const { _, fetch, count, remove, getFieldConfig, collectionName } = useCloud()
+const columnsId = ref('')   // 表格列配置 在数据中的id
+const columns = useCookie(`lafDB_${collectionName}_columns`, {
+    default: () => []
+}) // 表格列配置项
 const list = ref([]) // 表格数据
 const total = ref(0) // 总条数
 const loading = ref(false)
@@ -85,19 +88,21 @@ const query = computed(() => {
 const handlerFetch = () => {
     currentRowIndex.value = -1  // 每次获取数据，清除掉选中的行
     fetch(query.value, loading).then(res => {
-        if (res.data.length === 0) {
-            columns.value = [{ key: '_id', dataKey: '_id', title: '_id', width: 200 }]
-        } else {
-            columns.value = Object.keys(res.data[0]).reduce((total, key) => {
-                total.push({
-                    key: key,
-                    dataKey: key,
-                    title: key,
-                    // minWidth: '200',
-                    width: 200
-                })
-                return total
-            }, [])
+        // 处理表格列配置
+        if (res.data.length !== 0) {
+            Object.keys(res.data[0]).map((key) => {
+                const exits = columns.value.findIndex(item => item.key === key)
+                // 如果没记录的,则插入默认配置
+                if (exits === -1) {
+                    columns.value.push({
+                        key,
+                        dataKey: key,
+                        title: key,
+                        width: 200
+                    })
+                    // columns.value = JSON.parse(JSON.stringify(columns.value))
+                }
+            })
         }
         list.value = res.data
     })
@@ -108,6 +113,30 @@ const handlerCount = () => {
     count(query.value).then(res => {
         total.value = res.total || 0
     })
+}
+
+// 获取字段配置
+const handlerFields = async () => {
+    // 获取数据库中的字段配置
+    getFieldConfig()
+        .then(res => {
+            if (res.data) {
+                columnsId.value = res.data?._id || ''
+                // if (res.data.columns && Array.isArray(res.data.columns)) {
+                res.data?.columns.forEach((item) => {
+                    const index = columns.value.findIndex(col => col.key === item.key)
+                    if (index === -1) {
+                        columns.value.push(item)
+                    } else {
+                        columns.value[index] = {
+                            ...columns.value[index],
+                            ...item
+                        }
+                    }
+                })
+                // }
+            }
+        })
 }
 
 // 单元格的点击事件
@@ -191,7 +220,7 @@ watch([page, pageSize], () => {
 // 进入页面，获取数据和条数
 handlerFetch()
 handlerCount()
-
+handlerFields() // 获取字段配置
 
 </script>
 <style lang="scss" scoped>

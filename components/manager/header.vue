@@ -58,7 +58,7 @@ const fetchProfile = () => {
         path: '/v1/user/profile'
     }).then(res => {
         username.value = res.data.username || res.data.name
-        console.log('res', res)
+        // console.log('res', res)
     })
         .catch(() => { })
 }

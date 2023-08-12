@@ -1,0 +1,69 @@
+/*
+ * @Author: NMTuan
+ * @Email: NMTuan@qq.com
+ * @Date: 2023-08-10 07:29:28
+ * @LastEditTime: 2023-08-10 21:14:10
+ * @LastEditors: NMTuan
+ * @Description:
+ * @FilePath: \laf_curd\stores\field.ts
+ */
+import { defineStore } from 'pinia'
+
+interface Field {
+    dataKey: string
+    _id: string
+    collectionName: string
+    width: number
+    key: string
+    title: string
+}
+
+export const useFieldStore = defineStore('useFieldStore', () => {
+    const list: Ref<Field[]> = useCookie('lafDB_fields', {
+        default: () => []
+    })
+
+    // 更新字段， force 是否强制更新
+    const updateFields = (fields: Field[], collectionName: string) => {
+        fields.forEach((field) => {
+            updateField(field, collectionName)
+        })
+    }
+    const updateField = (field: Field, collectionName: string) => {
+        const index = list.value.findIndex(
+            (col) =>
+                col.key === field.key && col.collectionName === collectionName
+        )
+        if (index !== -1 && collectionName) {
+            // 如果本地存在，则更新
+            list.value[index] = {
+                ...list.value[index],
+                ...field
+            }
+        } else {
+            // 否则插入
+            list.value.push({
+                ...{ dataKey: field.key },
+                ...field
+            })
+        }
+    }
+
+    const getFields = async () => {
+        const { cloud, collectionName } = useCloud()
+        const res = await cloud
+            .database()
+            .collection('lafDB_fields')
+            .where({
+                collectionName
+            })
+            .get()
+        if (res.ok && res.data && Array.isArray(res.data)) {
+            updateFields(res.data as [], collectionName)
+        }
+    }
+    return {
+        list,
+        getFields
+    }
+})

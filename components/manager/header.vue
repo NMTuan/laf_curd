@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-13 09:34:02
- * @LastEditTime: 2023-07-15 20:50:35
+ * @LastEditTime: 2023-08-13 12:23:14
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\manager\header.vue
@@ -13,10 +13,16 @@
             <div class="flex items-center justify-center">
                 <div v-for="group in urls" class="ml-6 flex items-center">
                     [
-                    <a :href="item.url" target="_blank" v-for="item in group" class="mx-2 flex items-center">
-                        <img v-if="item.img" :src="item.img" />
-                        <span v-else>{{ item.label }}</span>
-                    </a>
+                    <template v-for="item in group">
+                        <span v-if="item.dialog" class="mx-2 cursor-pointer" hover="underline"
+                            @click="handlerDialog(item.dialog)">
+                            {{ item.label }}
+                        </span>
+                        <a v-else :href="item.url" target="_blank" class="mx-2 flex items-center">
+                            <img v-if="item.img" :src="item.img" />
+                            <span v-else>{{ item.label }}</span>
+                        </a>
+                    </template>
                     ]
                 </div>
             </div>
@@ -31,6 +37,16 @@
         <div class="ml-4 flex-shrink-0">
             <ManagerTab></ManagerTab>
         </div>
+        <el-dialog v-model="sponsorVisible" title="Sponsor">
+            <div class="flex items-center justify-center overflow-hidden">
+                <div class="flex-1">
+                    <img class="block w-full object-contain" src="@/assets/images/sponsor/wepay.jpg" alt="">
+                </div>
+                <div class="flex-1">
+                    <img class="block w-full object-contain" src="@/assets/images/sponsor/alipay.jpg" alt="">
+                </div>
+            </div>
+        </el-dialog>
     </div>
 </template>
 <script setup>
@@ -43,22 +59,25 @@ const urls = [
 
     ], [
         { label: 'Laf x DB', url: 'https://curd.muyi.dev/' },
-        { label: 'Old', url: '/old/' },
+        // { label: 'Old', url: '/old/' },
         {
             label: 'GitHub', url: 'https://github.com/NMTuan/laf_curd',
             img: 'https://img.shields.io/github/stars/NMTuan/laf_curd?style=flat-square&label=Github&labelColor=%2311a697&color=%2399f6e4'
         },
-        { label: 'Author', url: 'https://www.muyi.dev/' },
+        { label: '🍗Sponsor', dialog: 'sponsor' },
+    ], [
+        { label: 'Laf x HeartBeat', url: 'https://heartbeat.muyi.dev/' },
     ]
 ]
 const username = ref('')
+const sponsorVisible = ref(false)
 
 const fetchProfile = () => {
     request({
         path: '/v1/user/profile'
     }).then(res => {
         username.value = res.data.username || res.data.name
-        console.log('res', res)
+        // console.log('res', res)
     })
         .catch(() => { })
 }
@@ -78,6 +97,12 @@ const handlerLogout = () => {
         })
     })
 
+}
+
+const handlerDialog = (type) => {
+    if (type === 'sponsor') {
+        sponsorVisible.value = true
+    }
 }
 
 fetchProfile()

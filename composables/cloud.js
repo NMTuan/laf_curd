@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-07-13 10:34:44
- * @LastEditTime: 2023-08-12 16:07:50
+ * @LastEditTime: 2023-08-13 11:39:20
  * @LastEditors: NMTuan
  * @Description:
  * @FilePath: \laf_curd\composables\cloud.js
@@ -112,8 +112,8 @@ export const useCloud = (payload) => {
             }
             payload = payload || {}
             collection
-                .doc(id)
-                .update(payload)
+                .where({ _id: id })
+                .update(payload, { merge: false })
                 .then((res) => {
                     resolve(res)
                 })

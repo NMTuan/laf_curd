@@ -2,7 +2,7 @@
  * @Author: NMTuan
  * @Email: NMTuan@qq.com
  * @Date: 2023-08-08 07:34:55
- * @LastEditTime: 2023-08-12 17:22:57
+ * @LastEditTime: 2023-08-13 11:16:19
  * @LastEditors: NMTuan
  * @Description: 
  * @FilePath: \laf_curd\components\database\fields.vue
@@ -21,6 +21,24 @@
                 <el-table-column :label="col.label" :key="col.key" :width="col.width" v-for="col in columns">
                     <template #default="{ row, column, $index }">
                         <div v-if="column.rawColumnKey === 'key' && exitsCol(row.key)">{{ row[column.rawColumnKey] }}</div>
+                        <div v-else-if="column.rawColumnKey === 'position'" class="flex items-center justify-around">
+                            <el-link :underline="false" @click="handlerSort('top', $index)"
+                                :disabled="sortDisabled('top', $index)">
+                                <div class="i-ri-skip-up-line text-lg"></div>
+                            </el-link>
+                            <el-link :underline="false" @click="handlerSort('up', $index)"
+                                :disabled="sortDisabled('up', $index)">
+                                <div class="i-ri-arrow-up-s-line text-lg"></div>
+                            </el-link>
+                            <el-link :underline="false" @click="handlerSort('down', $index)"
+                                :disabled="sortDisabled('down', $index)">
+                                <div class="i-ri-arrow-down-s-line text-lg"></div>
+                            </el-link>
+                            <el-link :underline="false" @click="handlerSort('end', $index)"
+                                :disabled="sortDisabled('end', $index)">
+                                <div class="i-ri-skip-down-line text-lg"></div>
+                            </el-link>
+                        </div>
                         <el-popconfirm v-else-if="column.rawColumnKey === 'remove'" confirm-button-text="删除"
                             confirm-button-type="danger" cancel-button-text="取消" cancel-button-type="default" hide-icon
                             :title="`确定要删除“${row.title || row.key || '此字段'}”吗？`" width="240"
@@ -86,6 +104,7 @@ const columns = [
     { key: 'fixed', label: '固定列', width: 210 },    // 固定列
     { key: 'width', label: '列宽', width: 180 },
     { key: 'hidden', label: '显示', width: 80 }, // 隐藏
+    { key: 'position', label: '', width: 200 },
     { key: 'remove', label: '', width: 42 },
 ]
 
@@ -128,5 +147,38 @@ const exitsCol = (key) => {
 // 移除字段
 const handlerRemove = (index) => {
     fields.value.splice(index, 1)
+}
+
+// 排序
+const handlerSort = (action, index) => {
+    const handler = {
+        top: () => {
+            return 0
+        },
+        up: () => {
+            return index - 1
+        },
+        down: () => {
+            return index + 1
+        },
+        end: () => {
+            return fields.value.length - 1
+        }
+    }
+    let position = handler[action]()
+    const item = fields.value.splice(index, 1)[0]
+    fields.value.splice(position, 0, item)
+}
+
+// 排序按钮的禁用状态
+const sortDisabled = (action, index) => {
+    if (index === 0 && ['top', 'up'].includes(action)) {
+        return true
+    }
+    if (index === fields.value.length - 1 && ['end', 'down'].includes(action)) {
+        return true
+    }
+
+    return false
 }
 </script>
